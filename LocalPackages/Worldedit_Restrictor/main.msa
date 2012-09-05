@@ -36,7 +36,7 @@ _rdf_checkcommonsversion(@requiredcommonsversion)
 	assign(@maxdistance, 256)
 	assign(@command,'//set')
 	assign(@arguments,'<block>')
-	if(lt(length(@option)1),die(_rdf_syntaxerror(@command,@arguments)),
+	if(lt(length(@option),1),die(_rdf_syntaxerror(@command,@arguments)),
 		if(gt(_rdf_max_horizontal_distance(sk_pos1(), sk_pos2()), @maxdistance),
 			die(concat('This command is limited to a max horizontal distance of ', @maxdistance)),
 			assign(@command, concat('//set ', @option))
