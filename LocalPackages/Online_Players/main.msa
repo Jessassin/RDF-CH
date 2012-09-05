@@ -1,6 +1,6 @@
 #=========================================================================#
 #
-# RDF Server Onlike Players List
+# RDF Server Online Players List
 # Authored by: Jessassin
 # 
 # Requires: permission - ch.all
