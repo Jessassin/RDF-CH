@@ -1,0 +1,43 @@
+#=========================================================================#
+#
+# RDF Server Onlike Players List
+# Authored by: Jessassin
+# 
+# Requires: permission - ch.all
+# Risk: low/none
+#
+#=========================================================================#
+
+##List Players by rank (need to be rewritten)
+all:/online = >>>
+assign(@defaults,'')
+assign(@serveradmins,'')
+assign(@founders,'')
+assign(@admins,'')
+assign(@moderators,'')
+assign(@members,'')
+assign(@count,length(all_players()))
+foreach(all_players(),@pl,if(array_contains_ic(pgroup(@pl),serveradmin),assign(@serveradmins,concat(@serveradmins, color(f), '[', color(6), '', @pl, color(f), '] ', color(c)))))
+foreach(all_players(),@pl,if(array_contains_ic(pgroup(@pl),admin),assign(@admins,concat(@admins, color(f), '[', color(c), @pl, color(f), '] ', color(c)))))
+foreach(all_players(),@pl,if(array_contains_ic(pgroup(@pl),mod),assign(@moderators,concat(@moderators, color(f), '[', color(c), @pl, color(f), '] ', color(c)))))
+foreach(all_players(),@pl,if(array_contains_ic(pgroup(@pl),founder),assign(@founders,concat(@founders, color(f), '[', color(c), @pl, color(f), '] ', color(c)))))
+foreach(all_players(),@pl,if(array_contains_ic(pgroup(@pl),default),assign(@defaults,concat(@defaults, color(f), '[', color(c), @pl, color(f), '] ', color(c)))))
+foreach(all_players(),@pl,if(array_contains_ic(pgroup(@pl),default),assign(@visitors,concat(@visitors, color(f), '[', color(c), @pl, color(f), '] ', color(c)))))
+foreach(all_players(),@pl,if(nor(array_contains_ic(pgroup(@pl),serveradmin),array_contains_ic(pgroup(@pl),founder),array_contains_ic(pgroup(@pl),default),array_contains_ic(pgroup(@pl),admin),array_contains_ic(pgroup(@pl),mod)),assign(@members,concat(@members, color(f), '[', color(c), @pl, color(f), '] ', color(c)))))
+msg(concat(color(c), 'RDF Online Player List'))
+msg(concat(color(b), 'Players Online: ', color(6), @count))
+if(not(lt(length(@serveradmins),1)),msg(concat(color(6), 'Server Admins: ', color(f), @serveradmins)))
+if(not(lt(length(@founders),1)),msg(concat(color(4), 'Founders: ', color(f), @founders)))
+if(not(lt(length(@admins),1)),msg(concat(color(4), 'Admins: ', color(f), @admins)))
+if(not(lt(length(@moderators),1)),msg(concat(color(c), 'Moderators: ', color(f), @moderators)))
+if(not(lt(length(@members),1)),msg(concat(color(f), 'Members: ', color(f), @members)))
+if(not(lt(length(@visitors),1)),msg(concat(color(f), 'Visitors: ', color(f), @visitors)))
+<<<
+
+all:/who = >>>
+call_alias(/online)
+<<<
+
+all:/list = >>>
+call_alias(/online)
+<<<
