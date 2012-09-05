@@ -1,0 +1,75 @@
+#=========================================================================#
+#
+# RDF Server Worldedit Limiter
+# Authored by: Jessassin
+# 
+# Requires: Worldedit, RDF Commons 1.1+, CH.all
+# Risk: low/none
+#
+#=========================================================================#
+
+all:/distance [$=''] = >>>
+#commons version check!
+assign(@requiredcommonsversion,1.1)
+_rdf_checkcommonsversion(@requiredcommonsversion)
+##
+assign(@command,'/distance')
+assign(@arguments,'<type>')
+assign(@var, $)
+include('/includes/distance.ms')
+if(equals_ic(@var, 3d), die(_rdf_3d_distance(sk_pos1(), sk_pos2())))
+if(equals_ic(@var, horizontal), die(_rdf_2d_distance(sk_pos1(), sk_pos2())))
+if(equals_ic(@var, max_horizontal), die(_rdf_max_horizontal_distance(sk_pos1(), sk_pos2())))
+if(equals_ic(@var, vertical), die(_rdf_vertical_distance(sk_pos1(), sk_pos2())))
+#if(equals_ic(@var, volume), die(_rdf_cuboid_volume(sk_pos1(), sk_pos2())))
+msg('Syntax error! /distance <type>')
+die('Acceptable types: 3d, horizontal, max_horizontal, vertical')
+<<<
+
+#Worldedit restrictions for max size (matches max plot size of 256x256, and prevents accidental worldedit greifs which have happened in the past)
+all://set [$='null'] = >>>
+#commons version check!
+assign(@requiredcommonsversion,1.1)
+_rdf_checkcommonsversion(@requiredcommonsversion)
+##
+	assign(@option,$)
+	assign(@maxdistance, 256)
+	assign(@command,'//set')
+	assign(@arguments,'<block>')
+	if(equals_ic(@option,null),die(_rdf_syntaxerror(@command,@arguments)),
+		if(gt(_rdf_max_horizontal_distance(sk_pos1(), sk_pos2()), @maxdistance),
+			die(concat('This command is limited to a max horizontal distance of ', @maxdistance)),
+			assign(@command, concat('//set ', @option))
+			run(@command)
+	)
+	)
+<<<
+
+all://replace [$1='null'] [$2='null'] = >>>
+#commons version check!
+assign(@requiredcommonsversion,1.1)
+_rdf_checkcommonsversion(@requiredcommonsversion)
+##
+	assign(@option1, $1)
+	assign(@option2, $2)
+	assign(@maxdistance, 256)
+	if(gt(_rdf_max_horizontal_distance(sk_pos1(), sk_pos2()), @maxdistance),
+		die(concat('This command is limited to a max horizontal distance of ', @maxdistance)),
+		assign(@command, concat('//replace ',@option1, ' ', @option2))
+		run(@command)
+	)
+<<<
+
+all://copy = >>>
+#commons version check!
+assign(@requiredcommonsversion,1.1)
+_rdf_checkcommonsversion(@requiredcommonsversion)
+##
+	assign(@maxdistance, 256)
+	if(gt(_rdf_max_horizontal_distance(sk_pos1(), sk_pos2()), @maxdistance),
+		die(concat('This command is limited to a max horizontal distance of ', @maxdistance)),
+		assign(@command, '//copy')
+		run(@command)
+	)
+<<<
+

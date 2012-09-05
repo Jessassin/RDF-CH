@@ -9,7 +9,7 @@
 #=========================================================================#
 
 proc(_rdf_checkcommonsversion,@requiredversion,
-	assign(@commonsversion,abs(1.0))
+	assign(@commonsversion,abs(1.1))
 	if(equals_ic(@requiredversion,'return'),
 		return(@commonsversion)
 	)
@@ -48,4 +48,53 @@ proc(_rdf_helpmessage,
 		if(equals_ic(@helpmessage,'null'),
 		die('There is no help text for this command'),
 		die(@helpmessage))
+)
+
+proc(_rdf_3d_distance, @arr1, @arr2,
+    return(
+        floor(
+            sqrt(
+                add(
+                    pow(subtract(@arr2[0], @arr1[0]), 2),
+                    pow(subtract(@arr2[1], @arr1[1]), 2),
+                    pow(subtract(@arr2[2], @arr1[2]), 2)
+                )
+            )
+        )
+    )
+)
+
+proc(_rdf_2d_distance, @arr1, @arr2, 
+	return(
+		floor(
+			sqrt(
+				add(
+					pow(subtract(@arr2[0], @arr1[0]), 2),
+					pow(subtract(@arr2[2], @arr1[2]), 2),
+					1
+				)
+			)
+		)
+	)
+)
+
+proc(_rdf_max_horizontal_distance, @arr1, @arr2,
+	return(
+		floor(
+			max(
+				abs(subtract(@arr2[0], @arr1[0])),
+				abs(subtract(@arr2[2], @arr1[2]))
+			)
+		)
+	)
+)
+
+proc(_rdf_vertical_distance, @arr1, @arr2,
+	return(
+		floor(
+			add(
+				abs(subtract(@arr1[1], @arr2[1]))
+			)
+		)
+	)
 )
