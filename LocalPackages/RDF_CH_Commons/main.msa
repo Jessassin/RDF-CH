@@ -1,0 +1,13 @@
+#=========================================================================#
+#
+# RDF Server CommandHelper Commons
+# Authored by: Jessassin
+# 
+# Requires: permission - ch.admin (only for command)
+# Risk: low/none
+#
+#=========================================================================#
+
+admin:/commonsversion = >>>
+	msg(_rdf_checkcommonsversion('return'))
+<<<

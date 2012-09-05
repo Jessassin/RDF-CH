@@ -1,0 +1,36 @@
+#=========================================================================#
+#
+# RDF Server Temperature Converter
+# Authored by: Jessassin
+# Contributors: iDeNoh
+# 
+# Requires - permission ch.all
+# Requires - RDF_CH_Commons 1.0+
+# Risk: low/none
+#
+#=========================================================================#
+
+#converts between farenheit and celsius
+all:/temp [$temp='null'] [$type='null'] = >>>
+assign(@requiredcommonsversion,1.0)
+assign(@origtemp,$temp)
+assign(@temp,$temp)
+assign(@command,'/temp')
+assign(@arguments,'<Temperature> <F or C>')
+_rdf_checkcommonsversion(@requiredcommonsversion)
+if(
+	equals_ic($type,c),
+		assign(@output, _rdf_to_celsius(@temp))
+		die(
+			concat(@origtemp, ' Degrees Celsius Is ', @output, ' Degrees Farenheit')
+		)
+)
+if(
+	equals_ic($type, f),
+		assign(@output, _rdf_to_farenheit(@temp))
+		die(
+			concat(@origtemp, ' Degrees Farenheit Is ', @output, ' Degrees Celsius')
+		)
+)
+die(_rdf_syntaxerror(@command,@arguments))
+<<<
