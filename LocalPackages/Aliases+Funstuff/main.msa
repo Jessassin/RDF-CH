@@ -1,0 +1,115 @@
+#=========================================================================#
+#
+# RDF Server Aliases & Fun Stuff
+# Authored by: Jessassin
+# 
+# Requires: permission - ch.all
+# Risk: low/none
+#
+#=========================================================================#
+
+admin:/ra = >>>
+runas(~console, /reloadaliases)
+msg(concat(color(4),'Aliases reloaded!'))
+<<<
+
+all:/afk = >>>
+msg('Please do not go AFK, it wastes my bandwidth')
+msg('Instead, please log off the server')
+<<<
+
+#expression (because, why not!)
+all:/expr [$] = >>>
+assign(@pre,$)
+include('/includes/expression.txt')
+<<<
+
+all:/expression [$] = >>>
+msg('/expression is old! Please use /expr instead :)')
+<<<
+
+#Puts a smile on your face... or maybe just a block
+all:/hat = >>>
+assign(@player, player())
+assign(@hand, pinfo(player(), 6))
+        if(is_null(pinv(@player, null)), die(color(c),'You need to be holding something!',))
+                try(
+                        set_pinv(array(103: pinv(player(), null))), @i, die(color(c),'You can\'t wear that!',))
+                        ptake_item(player(), @hand, 1)
+tmsg(@player, color(7),'Look at your hat, your hat is amazing!')
+<<<
+
+#animal Noises
+all:/lemur = broadcast(sconcat(color(e) player() color(f) 'Barks and screeches like a lemur!'))
+all:/moo =  broadcast(sconcat(color(e) player() color(f) 'Moos like a cow!'))
+all:/oink =  broadcast(sconcat(color(e) player() color(f) 'Oinks like a pig!'))
+all:/cluck =  broadcast(sconcat(color(e) player() color(f) 'Clucks like a chicken!'))
+all:/bark =  broadcast(sconcat(color(e) player() color(f) 'Barks like a dog!'))
+all:/baa =  broadcast(sconcat(color(e) player() color(f) 'Baas like a sheep!'))
+all:/brains =  broadcast(sconcat(color(e) player() color(f) 'BRAAAAAAAAAAINS like a zombie!'))
+all:/sss =  broadcast(sconcat(color(e) player() color(f) 'SSSSSSSSsssssssssssss-s like a creeper!'))
+#idk?
+all:/confused =  broadcast(sconcat(color(e) player() color(f), 'has ALL THE CONFUSION!'))
+all:/nope =  msg('Chuck Testa!')
+#lag :P
+all:/lag = >>>
+runas(~console, concat('/kick ',player(),' I FIXED YOUR LAG! :D <3 Jessassin :P'))
+<<<
+
+all:/huzza = >>>
+broadcast(concat(color(get_value(concat(player(),'_namecolor'))), player(), '§f Yells:', ' HUZZA!'))
+runas(player(), /suicide)
+<<<
+
+#fake a player login! (Requires ch.admin)
+admin:/join $player [$loc] = >>>
+    broadcast(concat($player,color(e),' joined the game'))
+    if(gt(length($loc),1),broadcast(concat('Player ',$player, ' comes from ', $loc)))
+<<<
+
+#better looking /me command, with the tagging system we have
+all:/me $ = >>>
+broadcast(concat(color(7),'*',color(e), player(), ' ', color(f), $))
+<<<
+
+#move super fast!
+all:/fast = >>>
+msg('SUPER SPEED!')
+set_peffect(player(), 1, 50, 5000) #speed
+set_peffect(player(), 5, 50, 5000) #strength
+set_peffect(player(), 8, 8, 5000) #jumping
+msg('To stop this effect, type /fixme')
+<<<
+
+#reset peffects (there is a better way to do this, but I am lazy! (I will turn into a loop later!)
+all:/fixme = >>>
+set_peffect(player(), 1, 0, 0)
+set_peffect(player(), 5, 0, 0)
+set_peffect(player(), 8, 0, 0)
+<<<
+
+#Save server
+admin:/save = runas(~console, /save-all) msg(SAVING!)
+
+#Reload aliases
+#admin:/ra = runas(~op, /reloadaliases) msg(concat(color(4),Aliases Reloaded))
+
+#Time Aliases
+all:/day = /ptime '@noon'
+all:/night = /ptime '@midnight'
+
+#show chat colors (stole this from jadedwolf, very useful!!!)
+all:/c = msg('§ff §77 §ee §cc §dd §99 §bb §aa\n§00 §88 §66 §44 §55 §11 §33 §22')
+
+#fix ALL THE LAG!
+all:/fixlag = >>>
+assign(@player,player())
+runas(~op,/rem arrows -1)
+runas(~op,/rem items -1)
+runas(~op,/rem paintings -1)
+runas(~op,/rem boats -1)
+runas(~op,/rem xp -1)
+runas(~op,/butcher -f)
+runas(~console,/save-all)
+msg('You fixed teh lags!')
+<<<
