@@ -14,4 +14,10 @@ all:/derp [$]= >>>
 	assign(@var, $)
 	assign(@player, player())
 	include('/includes/derps.txt')
+	if(is_integer(@var), 
+		die(broadcast(concat(color(2),'*',@player,color(l),' DERP! ',color(r),color(d),@derps[@var])))
+	)
+	assign(@length,length(@derps))
+	assign(@derp,array_get(@derps,rand(0,@length)))
+	broadcast(concat(color(2),'*',color(f),@player, color(l),' DERP! ',color(r),color(d),@derp))
 <<<
