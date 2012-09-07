@@ -1,0 +1,29 @@
+#=========================================================================#
+#
+# RDF Server Personal Schematic Folders
+# Authored by: Jessassin
+# 
+# Requires: RDF Commons 1.1+ permission - ch.all
+# Risk: low/none
+#
+#=========================================================================#
+
+#Schematic saving and loading override. This prevents users from saving into other users folders, and insures file system integrity.
+all://save [$filename='null'] = >>>
+assign(@realfilename, $filename)
+assign(@username, player())
+assign(@fileformat, 'mcedit')
+assign(@command, concat('//schematic save ', @fileformat, ' ', @username, '/', @realfilename))
+if(equals_ic(@realfilename, null), die('A file name is required. type //save <filename>'))
+run(@command)
+<<<
+
+#need to add ability to load from another user's folder, if permissions requirements are met
+all://load [$filename='null'] = >>>
+assign(@realfilename, $filename)
+assign(@username, player())
+assign(@fileformat, 'mcedit')
+assign(@command, concat('//schematic load ', @fileformat, ' ', @username, '/', @realfilename))
+if(equals_ic(@realfilename, null), die('A file name is required. Type //load <filename>'))
+run(@command)
+<<<
