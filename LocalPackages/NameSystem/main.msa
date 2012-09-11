@@ -1,0 +1,137 @@
+#=========================================================================#
+#
+# RDF Server Name System
+# Authored by: Jessassin
+# 
+# Requires: stuff?
+# Risk: low/none
+#
+#=========================================================================#
+
+#fix player name (for use with the tagging system, needs to be rewritten)
+all:/fixname [$target='null'] = >>>
+assign(@target,$target)
+if(is_null(@target),assign(@player, player()),assign(@player,@target))
+_rdf_formatname(@player)
+<<<
+
+#Used to promote or demote user on the "skill" ladder (needs revising)
+admin:/skillup $player = >>>
+if(equals_ic($player, player()),die('You cannot do that to yourself!'))
+assign(@groups, pgroup($player))
+if(array_contains(@groups, Default), runas(~op, /pex user $player group remove Default) runas(~op, /pex user $player group add Guest))
+if(array_contains(@groups, Guest), runas(~op, /pex user $player group remove Guest) runas(~op, /pex user $player group add Testificate))
+if(array_contains(@groups, Testificate), runas(~op, /pex user $player group remove Testificate) runas(~op, /pex user $player group add Builder))
+if(array_contains(@groups, Builder), runas(~op, /pex user $player group remove Builder) runas(~op, /pex user $player group add Engineer))
+if(array_contains(@groups, Engineer), runas(~op, /pex user $player group remove Engineer) runas(~op, /pex user $player group add Scientist))
+if(array_contains(@groups, Scientist), runas(~op, /pex user $player group remove Scientist) runas(~op, /pex user $player group add Guru))
+if(array_contains(@groups, Guru), msg($player is already a Guru!))
+call_alias(/fixname $player)
+<<<
+
+#similar to above, just for demoting. (also needs revising)
+admin:/skilldown $player = >>>
+if(equals_ic($player, player()), die('You cannot do that to yourself!'))
+assign(@groups, pgroup($player))
+if(array_contains(@groups, Guru), runas(~op, /pex user $player group remove Guru) runas(~op, /pex user $player group add Scientist))
+if(array_contains(@groups, Scientist), runas(~op, /pex user $player group remove Scientist) runas(~op, /pex user $player group add Engineer))
+if(array_contains(@groups, Engineer), runas(~op, /pex user $player group remove Engineer) runas(~op, /pex user $player group add Builder))
+if(array_contains(@groups, Builder), runas(~op, /pex user $player group remove Builder) runas(~op, /pex user $player group add Testificate))
+if(array_contains(@groups, Testificate), runas(~op, /pex user $player group remove Testificate) runas(~op, /pex user $player group add Guest))
+if(array_contains(@groups, Guest), runas(~op, /pex user $player group remove Guest) runas(~op, /pex user $player group add Default))
+if(array_contains(@groups, Default), runas(~op, /pex user $player group remove Default) msg(concat($player, 'is already Default!')))
+call_alias(/fixname $player)
+<<<
+
+#Tags (displays the tags that we use, and what they mean
+all:/tags = >>>
+msg(concat('Here is a list of the current tags:'))
+msg(concat('Type /tags <tag letter> to see more information'))
+msg(concat(color(c), '[M]', color(f), '  - Moderator'))
+msg(concat(color(4), '[A]', color(f), ' - Admin'))
+msg(concat(color(4), '[F]', color(f), ' - Founder'))
+msg(concat(color(4), '[SA]', color(f), ' -Server Admin'))
+msg(concat(color(2), '[D]', color(f), ' - Donator ($7-$19.99)'))
+msg(concat(color(6), '[D]', color(f), ' - Donator ($20-$49.99)'))
+msg(concat(color(5), '[W]', color(f), ' - Writer'))
+msg(concat(color(7), '[H]', color(f), ' - Helper'))
+msg(concat(color(2), '[S]', color(f), ' - Sponsor ($50-$99.99)'))
+msg(concat(color(6), '[S]', color(f), ' - Sponsor ($100-$150)'))
+msg(concat(color(1), '[S]', color(f), ' - Sponsor ($150+)'))
+<<<
+
+#Tag add/remove (to add or remove a tag from a player) (needs better formatting)
+admin:/tag [$add] [$tag] [$player] = >>>
+assign(@add,$add)
+assign(@tag,$tag)
+assign(@player,$player)
+assign(@tags,array(m,a,sa,f,d1,d2,s1,s2,s3,h,w))
+assign(@ranks,array(Mod,Admin,ServerAdmin,Founder,DonatorLow,DonatorHigh,SponsorLow,SponsorMid,SponsorHigh,Helper,Writer))
+assign(@syntax,concat(color(e), 'Syntax: ', color(f), '/tag ', color(c), '<add/remove> ', '<tag> ', '<player>'))
+if(
+		or(
+				lt(length(@add),1),
+				lt(length(@tag),1),
+				lt(length(@player),1)
+			),
+		die(concat(color(4), 'Missing perameter!  ', @syntax))
+	)
+if(
+	nor(equals_ic(@add,add),equals_ic(@add,remove)),
+	die('Incorrect syntax for <add/remove> You entered:' @add)
+	)
+if(not(array_contains_ic(all_players(),@player)),die(concat(color(2), @player, color(4), 'is not online!')))
+if(
+	not(array_contains_ic(@tags,@tag)),
+	die('The tag '@tag 'is not valid!')
+	)
+if(
+	not(has_permission(player(),concat('jessassin.tag.',@tag))),
+	die(concat('you need the permission jessassin.tag.',@tag))
+	)
+if(equals_ic(@tag,m),assign(@val,0))
+if(equals_ic(@tag,a),assign(@val,1))
+if(equals_ic(@tag,sa),assign(@val,2))
+if(equals_ic(@tag,f),assign(@val,3))
+if(equals_ic(@tag,d1),assign(@val,4))
+if(equals_ic(@tag,d2),assign(@val,5))
+if(equals_ic(@tag,s1),assign(@val,6))
+if(equals_ic(@tag,s2),assign(@val,7))
+if(equals_ic(@tag,s3),assign(@val,8))
+if(equals_ic(@tag,h),assign(@val,9))
+if(equals_ic(@tag,w),assign(@val,10))
+assign(@promorank,array_get(@ranks,@val))
+runas(~op,/pex user @player group @add @promorank)
+_rdf_formatname(@player)
+<<<
+
+all:/nameformat [$1] [$2] [$3] = >>>
+	assign(@option1,$1)
+	assign(@option2,$2)
+	assign(@option3,$3)
+	assign(@player,player())
+	if(array_contains_ic(all_players(),@option3),
+		assign(@player,@option3)
+	)
+	assign(@command,'/nameformat')
+	assign(@syntax,'<color,prefixsize,suffixsize,style> <?>')
+	assign(@colorsyntax,'<color> <0-9,a-f,?>')
+	assign(@prefixsizesyntax,'<prefixlength> <long,short>')
+	assign(@suffixsizesyntax,'<suffixlength> <long,short>')
+	assign(@formatsyntax,'<style> <l,m,n,o,r>')
+	if(
+		not(
+			or(
+				equals_ic(@option1,'color'),
+				equals_ic(@option1,'prefixsize'),
+				equals_ic(@option1,'suffixsize'),
+				equals_ic(@option1,'style')
+			)
+		),
+		die(_rdf_syntaxerror(@command,@syntax))
+	)
+	if(equals_ic(@option1,'color'),_rdf_namecolor(@player,@option2))
+	if(equals_ic(@option1,'prefixsize'),_rdf_prefixsize(@player,@option2))
+	if(equals_ic(@option1,'suffixsize'),_rdf_suffixsize(@player,@option2))
+	if(equals_ic(@option1,'style'),_rdf_namestyle(@player,@option2))
+<<<
