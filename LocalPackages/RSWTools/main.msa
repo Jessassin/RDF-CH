@@ -12,7 +12,7 @@
 admin:/ac = msg(concat(color(4),'[Admin Chat]',color(6),'Use /ac <msg> to talk with other admins.'))
 
 admin: /'#' = msg(concat(color(4),'[Admin Chat]',color(6),'Use  /# <msg> or /ac <msg> to send a message to your fellow admins.'))
-admin: /'#' $msg = call_alias(ac $msg)
+admin: /'#' $ = call_alias(/ac $)
 
 admin:/ac $ = >>>
 foreach(all_players(),@person,
