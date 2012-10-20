@@ -1,0 +1,75 @@
+#=========================================================================#
+#
+# RDF Server Inventory Management System & Admin Chat
+# Authored by: Redstonewarrior
+# Contributors: None
+#
+# Requires: None
+# Risk: low/none
+#
+#=========================================================================#
+
+admin:/ac = msg(concat(color(4),'[Admin Chat]',color(6),'Use /ac <msg> to talk with other admins.'))
+
+admin: /'#' = msg(concat(color(4),'[Admin Chat]',color(6),'Use  /# <msg> or /ac <msg> to send a message to your fellow admins.'))
+admin: /'#' $ = call_alias(/ac $)
+
+admin:/ac $ = >>>
+foreach(all_players(),@person,
+if(array_contains(pgroup(@person),admin) || array_contains(pgroup(@person),sadmin),
+   tmsg(@person,concat(color(4),'[Admin Chat]', color(b), player(), ' ', color(f), $))))
+<<<
+
+admin:/adminchat = msg(concat(color(4),'[Admin Chat]',color(6),'Please use /ac or /# for admin chat.'))
+
+all:/is save $ = >>>
+store_value(concat('is.',player(),'.',$), array(player(),pinv()))
+die(concat(color(a),'[Inventory Storage]',color(6), 'Successfully stored inventory: ', $))
+<<<
+
+all:/is load $ = >>>
+try(set_pinv(get_value(concat('is.',player(),'.', $))[1]),@error,
+    die(concat(color(a),'[Inventory Storage]',color(6),'Inventory not found!')))
+die(concat(color(a),'[Inventory Storage]',color(6),'Inventory Loaded'))
+<<<
+
+all:/is remove $ = >>>
+clear_value(concat('is.',player(),'.',$))
+die(concat(color(a),'[Inventory Storage]',color(6),'Inventory Removed'))<<<
+
+all:/is list = >>>
+assign(@msg,concat(color(a),'[Inventory Storage]',color(6),'The following inventories are available: ',color(f)))
+foreach(array_keys(get_values(concat('is.',player(),'.'))),@key,
+assign(@msg,concat(@msg, substr(@key,add(3,length(player()),1)), ',')))
+msg(@msg)
+<<<
+
+#admin:/is who $ = >>>
+#try(msg(concat(color(a),'[Inventory Storage]',color(6),'Inventory last stored by: ', get_value(concat('is.', $))[0])),@error,
+#die(concat(color(a),'[Inventory Storage]',color(6),'Inventory not found!')))<<<	
+
+all:/is help = >>>
+msg(concat(color(a),'[Inventory Storage]',color(6),': Inventory Storage. This script essentually allows you to store multiple inventories and switch between them. Options:'))
+msg(concat(color(a),'/is ',color(b),'load ',color(c), '<name>', color(f),': Loads the named inventory.'))
+msg(concat(color(a),'/is ',color(b),'save ',color(c), '<name>', color(f),': Saves your inventory as <name>.'))
+msg(concat(color(a),'/is ',color(b),'store ',color(c), '<name>', color(f),': Same as above, to avoid confusion.'))
+msg(concat(color(a),'/is ',color(b),'remove ',color(c), '<name>',color(f),': Removes the named inventory.'))
+msg(concat(color(a),'/is ',color(b),'list',color(f), ': Lists the saved inventories.'))
+msg(concat(color(a),'/is ',color(b),'help',color(f), ': Shows this message.'))
+msg(concat(color(a),'/is ',color(b),'clearAll',color(f),': Removes all stored inventories.'))
+#msg(concat(color(a),'/is ',color(b),'who',color(c),' <name>',color(f),': Outputs the last player to edit an inventory.'))
+<<<
+
+all:/is store $ = >>>
+store_value(concat('is.',player(),'.', $), array(player(), pinv()))
+die(concat(color(a),'[Inventory Storage]',color(6), 'Successfully stored inventory: ', $))
+<<<
+
+all:/is = msg(concat(color(a),'[Inventory Storage]',color(6),'Type /is help for help.'))
+
+all:/inventorystorage = msg(concat(color(a),'[Inventory Storage]',color(6), 'Use the /is command for inventory storage.'))
+
+admin:/is clearAll = >>>
+foreach(array_keys(get_values('is.')),@key,
+clear_value(@key))
+msg(concat(color(a),'[Inventory Storage]',color(6),'Inventories cleared.'))<<<
