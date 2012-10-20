@@ -1,0 +1,2 @@
+assign(@domains,array('jessassin.net.:25565','jessassin.net:25565'))
+assign(@exemptuserarray,array('douglasg14b','redstonewarrior'))

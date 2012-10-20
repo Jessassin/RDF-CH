@@ -11,11 +11,42 @@
 proc(_rdf_namestyle,@user,@format,
 	assign(@formats, array(l,m,n,o,r))
 	assign(@groups, pgroup(@user))
-	assign(@formatsdisplay, concat(color(2), color(l), 'L', color(f), ': Bold', color(2), ' §mM', color(f), ': §mStrike', color(2), ' §nN', color(f), ': §nUnderline' color(2), ' §oO', color(f), ': §oItalic ', color(2), '§r§2r', color(f), ': §pNormal'))
-	if(not(array_contains_ic(@groups, donatorhigh)), msg('This command is only avaliable to high level donators') msg('As a high level donator, you would have access to the following name formats') die(@formatsdisplay))
-	if(array_contains_ic(@formats, @format), assign(@run,color(@format)), msg('That is not a valid format') die(concat('Valid formats shown in §2green§f: ', '\n', @formatsdisplay)))
+#	assign(@formatsdisplay, concat(color(2), color(l), 'L', color(f), ':Bold', '\n', color(2), ' §mM', color(f), ':§mStrike', '\n', color(2), ' §nN', color(f), ': §nUnderline' '\n', color(2), ' §oO', color(f), ':§oItalic ', '\n', color(2), '§r§2r', color(f), ':§pNormal'))
+	assign(@formatdisplay,
+		array(
+			concat('L: ',color(2),color(L),'Bold'),
+			concat('M: ',color(2),color(M),'Strike'),
+			concat('N: ',color(2),color(N),'Underline'),
+			concat('O: ',color(2),color(O),'Italic'),
+			concat('R: ',color(2),color(p),'Normal')
+		)
+	)
+	if(
+		not(
+			or(
+				array_contains_ic(@groups,donatorhigh), 
+				array_contains_ic(@groups,sponsorlow), 
+				array_contains_ic(@groups,sponsormid), 
+				array_contains_ic(@groups,sponsorhigh)
+				)
+			),
+			msg('This command is only avaliable to high level donators')
+			msg('As a high level donator, you would have access to the following name formats')
+			die(
+				foreach(@formatdisplay,@format,
+					msg(@format)
+				)
+			)
+	)
+	if(
+		array_contains_ic(@formats, @format), 
+			assign(@run,color(@format)), 
+			msg('That is not a valid format') 
+			die(concat('Valid formats shown in §2green§f: ', '\n', @formatsdisplay))
+	)
+	assign(@user,to_lower(@user))
 	store_value(concat(@user,'_nameformat'),concat(@run))
-	msg(concat('Name display format changed!',get_value(concat(@user,'_nameformat')), ' Sample'))
+#	msg(concat('Name display format changed!',get_value(concat(@user,'_nameformat')), ' Sample'))
 	_rdf_formatname(@user)
 )
 
@@ -102,6 +133,7 @@ proc(_rdf_namecolor,@user,@color,
 				die(concat('for',color(6),' gold ',color(f), 'level donators: ',@formatteddhcolors))
 			)
 		)
+		assign(@user,to_lower(@user))
 		store_value(concat(@user, '_namecolor'), @color)
 		_rdf_formatname(@user)
 		die(concat('Congratulations! your name color is now',color(@color),' this color!'))
@@ -173,6 +205,7 @@ proc(_rdf_gettags,@user,
 )
 
 proc(_rdf_formatname,@user,
+	assign(@user,to_lower(@user))
 	assign(@rank,_rdf_getrank(@user))
 	assign(@tagarray,_rdf_gettags(@user))
 	if(not(has_value(concat(@user,'_ranklength'))),store_value(concat(@user,'_ranklength'),'long'))

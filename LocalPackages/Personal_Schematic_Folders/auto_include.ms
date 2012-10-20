@@ -3,7 +3,7 @@
 # RDF Server Personal Schematic Folders
 # Authored by: Jessassin
 # 
-# Requires: permission - ch.all
+# Requires: RDF Commons 1.1+ permission - ch.all
 # Risk: low/none
 #
 #=========================================================================#

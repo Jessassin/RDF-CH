@@ -7,7 +7,8 @@ assign(@derps,array(
 	'Peppering Posh!',
 	'I aspire to be as grammer as you!',
 	'Wat ave you done ere!',
-	'I had my muke mited the entire time!'
+	'I had my muke mited the entire time!',
+	'Who is binary?',
+	'It\'s a super jew!'
 	)
 )
-

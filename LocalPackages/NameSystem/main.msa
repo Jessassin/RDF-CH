@@ -9,14 +9,25 @@
 #=========================================================================#
 
 #fix player name (for use with the tagging system, needs to be rewritten)
-all:/fixname [$target='null'] = >>>
-assign(@target,$target)
-if(is_null(@target),assign(@player, player()),assign(@player,@target))
-_rdf_formatname(@player)
+#all:/fixname [$target='null'] = >>>
+#assign(@target,$target)
+#if(is_null(@target),assign(@player, player()),assign(@player,@target))
+#_rdf_formatname(@player)
+#<<<
+
+*:/fixname [$target=''] = >>>
+_checkpermission('all',player())
+if(lt(length($target),3),
+	assign(@target,player()),
+	assign(@target,$target)
+)
+_rdf_formatname(@target)
 <<<
 
+
 #Used to promote or demote user on the "skill" ladder (needs revising)
-admin:/skillup $player = >>>
+*:/skillup $player = >>>
+_checkpermission('admin',player())
 if(equals_ic($player, player()),die('You cannot do that to yourself!'))
 assign(@groups, pgroup($player))
 if(array_contains(@groups, Default), runas(~op, /pex user $player group remove Default) runas(~op, /pex user $player group add Guest))
@@ -30,7 +41,8 @@ call_alias(/fixname $player)
 <<<
 
 #similar to above, just for demoting. (also needs revising)
-admin:/skilldown $player = >>>
+*:/skilldown $player = >>>
+_checkpermission('admin',player())
 if(equals_ic($player, player()), die('You cannot do that to yourself!'))
 assign(@groups, pgroup($player))
 if(array_contains(@groups, Guru), runas(~op, /pex user $player group remove Guru) runas(~op, /pex user $player group add Scientist))
@@ -44,7 +56,8 @@ call_alias(/fixname $player)
 <<<
 
 #Tags (displays the tags that we use, and what they mean
-all:/tags = >>>
+*:/tags = >>>
+_checkpermission('all',player())
 msg(concat('Here is a list of the current tags:'))
 msg(concat('Type /tags <tag letter> to see more information'))
 msg(concat(color(c), '[M]', color(f), '  - Moderator'))
@@ -61,7 +74,8 @@ msg(concat(color(1), '[S]', color(f), ' - Sponsor ($150+)'))
 <<<
 
 #Tag add/remove (to add or remove a tag from a player) (needs better formatting)
-admin:/tag [$add] [$tag] [$player] = >>>
+*:/tag [$add] [$tag] [$player] = >>>
+_checkpermission('admin',player())
 assign(@add,$add)
 assign(@tag,$tag)
 assign(@player,$player)
@@ -105,7 +119,8 @@ runas(~op,/pex user @player group @add @promorank)
 _rdf_formatname(@player)
 <<<
 
-all:/nameformat [$1] [$2] [$3] = >>>
+*:/nameformat [$1] [$2] [$3] = >>>
+_checkpermission('all',player())
 	assign(@option1,$1)
 	assign(@option2,$2)
 	assign(@option3,$3)

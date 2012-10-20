@@ -1,14 +1,16 @@
 #=========================================================================#
 #
-# RDF Server CommandHelper Commons
+# RDF Domain Name Forcer
 # Authored by: Jessassin
 # 
-# Requires: permission - ch.admin (only for command)
+# Requires: n/a
 # Risk: low/none
 #
 #=========================================================================#
 
-*:/commonsversion = >>>
-_checkpermission('admin',player())
-	msg(_rdf_checkcommonsversion('return'))
+*:/checkdomain [$usr] = >>>
+_checkpermission('all',player())
+assign(@message,_rdf_specific_domain($usr))
+msg(@message)
+_rdf_specific_domain($usr)
 <<<

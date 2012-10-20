@@ -27,7 +27,8 @@
 #<<<
 
 #Worldedit restrictions for max size (matches max plot size of 256x256, and prevents accidental worldedit greifs which have happened in the past)
-all://set [$='null'] = >>>
+*://set [$='null'] = >>>
+_checkpermission('all',player())
 #commons version check!
 assign(@requiredcommonsversion,1.1)
 _rdf_checkcommonsversion(@requiredcommonsversion)
@@ -45,7 +46,8 @@ _rdf_checkcommonsversion(@requiredcommonsversion)
 	)
 <<<
 
-all://replace [$1='null'] [$2='null'] = >>>
+*://replace [$1='null'] [$2='null'] = >>>
+_checkpermission('all',player())
 #commons version check!
 assign(@requiredcommonsversion,1.1)
 _rdf_checkcommonsversion(@requiredcommonsversion)
@@ -60,7 +62,8 @@ _rdf_checkcommonsversion(@requiredcommonsversion)
 	)
 <<<
 
-all://copy = >>>
+*://copy = >>>
+_checkpermission('all',player())
 #commons version check!
 assign(@requiredcommonsversion,1.1)
 _rdf_checkcommonsversion(@requiredcommonsversion)

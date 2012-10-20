@@ -10,14 +10,43 @@
 #
 #=========================================================================#
 
-all:/derp [$]= >>>
+*:/derp [$]= >>>
+_checkpermission('all',player())
 	assign(@var, $)
 	assign(@player, player())
+	assign(@player,to_lower(@player))
+	assign(@lastrun,get_value(concat(@player,'_lastderp')))
+	if(lt(length(@lastrun),5),
+		store_value(concat(@player,'_lastderp'),nano_time()),
+		if(lt(nano_time(),add(@lastrun,60000000000)),
+			die('you can not run this command that often!')
+		)
+	)
+	
+	store_value(concat(@player,'_lastderp'),nano_time())
 	include('/includes/derps.txt')
 	if(is_integer(@var), 
 		die(broadcast(concat(color(2),'*',@player,color(l),' DERP! ',color(r),color(d),@derps[@var])))
 	)
 	assign(@length,length(@derps))
-	assign(@derp,array_get(@derps,rand(0,@length)))
+	assign(@derp,array_get(@derps,rand(0,subtract(@length,1))))
 	broadcast(concat(color(2),'*',color(f),@player, color(l),' DERP! ',color(r),color(d),@derp))
+<<<
+
+*:/derps = >>>
+_checkpermission('all',player())
+include('/includes/derps.txt')
+assign(@counter,0)
+foreach(@derps,@derp,
+	msg(concat(color(1),@counter, color(f),': ', color(a),@derp))
+	assign(@counter,add(@counter,1))
+)
+<<<
+
+*:/timetest = >>>
+_checkpermission('all',player())
+msg(nano_time())
+assign(@time,nano_time())
+
+msg(@newtime)
 <<<

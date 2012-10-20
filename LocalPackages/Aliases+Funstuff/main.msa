@@ -8,28 +8,33 @@
 #
 #=========================================================================#
 
-admin:/ra = >>>
+*:/ra = >>>
+_checkpermission('admin',player())
 runas(~console, /reloadaliases)
 msg(concat(color(4),'Aliases reloaded!'))
 <<<
 
 all:/afk = >>>
+_checkpermission('all',player())
 msg('Please do not go AFK, it wastes my bandwidth')
 msg('Instead, please log off the server')
 <<<
 
 #expression (because, why not!)
 all:/expr [$] = >>>
+_checkpermission('all',player())
 assign(@pre,$)
 include('/includes/expression.txt')
 <<<
 
 all:/expression [$] = >>>
+_checkpermission('all',player())
 msg('/expression is old! Please use /expr instead :)')
 <<<
 
 #Puts a smile on your face... or maybe just a block
 all:/hat = >>>
+_checkpermission('all',player())
 assign(@player, player())
 assign(@hand, pinfo(player(), 6))
         if(is_null(pinv(@player, null)), die(color(c),'You need to be holding something!',))
@@ -56,24 +61,28 @@ all:/lag = >>>
 runas(~console, concat('/kick ',player(),' I FIXED YOUR LAG! :D <3 Jessassin :P'))
 <<<
 
-all:/huzza = >>>
+*:/huzza = >>>
+_checkpermission('all',player())
 broadcast(concat(color(get_value(concat(player(),'_namecolor'))), player(), '§f Yells:', ' HUZZA!'))
 runas(player(), /suicide)
 <<<
 
 #fake a player login! (Requires ch.admin)
-admin:/join $player [$loc] = >>>
+*:/join $player [$loc] = >>>
+_checkpermission('admin',player())
     broadcast(concat($player,color(e),' joined the game'))
     if(gt(length($loc),1),broadcast(concat('Player ',$player, ' comes from ', $loc)))
 <<<
 
 #better looking /me command, with the tagging system we have
-all:/me $ = >>>
+*:/me $ = >>>
+_checkpermission('all',player())
 broadcast(concat(color(7),'*',color(e), player(), ' ', color(f), $))
 <<<
 
 #move super fast!
-all:/fast = >>>
+*:/fast = >>>
+_checkpermission('all',player())
 msg('SUPER SPEED!')
 set_peffect(player(), 1, 50, 5000) #speed
 set_peffect(player(), 5, 50, 5000) #strength
@@ -82,7 +91,8 @@ msg('To stop this effect, type /fixme')
 <<<
 
 #reset peffects (there is a better way to do this, but I am lazy! (I will turn into a loop later!)
-all:/fixme = >>>
+*:/fixme = >>>
+_checkpermission('all',player())
 set_peffect(player(), 1, 0, 0)
 set_peffect(player(), 5, 0, 0)
 set_peffect(player(), 8, 0, 0)
@@ -102,7 +112,8 @@ all:/night = /ptime '@midnight'
 all:/c = msg('§ff §77 §ee §cc §dd §99 §bb §aa\n§00 §88 §66 §44 §55 §11 §33 §22')
 
 #fix ALL THE LAG!
-all:/fixlag = >>>
+*:/fixlag = >>>
+_checkpermission('all',player())
 assign(@player,player())
 runas(~op,/rem arrows -1)
 runas(~op,/rem items -1)

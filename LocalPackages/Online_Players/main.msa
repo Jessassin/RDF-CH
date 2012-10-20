@@ -9,7 +9,8 @@
 #=========================================================================#
 
 ##List Players by rank (need to be rewritten)
-all:/online = >>>
+*:/online = >>>
+_checkpermission('all',player())
 assign(@defaults,'')
 assign(@serveradmins,'')
 assign(@founders,'')
@@ -34,10 +35,12 @@ if(not(lt(length(@members),1)),msg(concat(color(f), 'Members: ', color(f), @memb
 if(not(lt(length(@visitors),1)),msg(concat(color(f), 'Visitors: ', color(f), @visitors)))
 <<<
 
-all:/who = >>>
+*:/who = >>>
+_checkpermission('all',player())
 call_alias(/online)
 <<<
 
-all:/list = >>>
+*:/list = >>>
+_checkpermission('all',player())
 call_alias(/online)
 <<<

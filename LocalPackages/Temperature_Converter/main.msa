@@ -11,7 +11,8 @@
 #=========================================================================#
 
 #converts between farenheit and celsius
-all:/temp [$temp='null'] [$type='null'] = >>>
+*:/temp [$temp='null'] [$type='null'] = >>>
+_checkpermission('all',player())
 assign(@requiredcommonsversion,1.0)
 assign(@origtemp,$temp)
 assign(@temp,$temp)
