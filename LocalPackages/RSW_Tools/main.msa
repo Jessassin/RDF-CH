@@ -10,7 +10,8 @@
 # Risk: low/none
 #
 #=========================================================================#
-admin:/ac [$=''] = >>>
+*:/ac [$=''] = >>>
+_checkpermission('admin',player())
 if(equals(length($),0),
 	msg(_acmessage())
 	die()
@@ -18,7 +19,8 @@ if(equals(length($),0),
 _adminchat(player(),$)
 <<<
 
-admin:/'#' [$=''] = >>>
+*:/'#' [$=''] = >>>
+_checkpermission('admin',player())
 if(equals(length($),0),
 	msg(_acmessage())
 	die()
@@ -26,11 +28,15 @@ if(equals(length($),0),
 _adminchat(player(),$)
 <<<
 
-admin:/adminchat = msg(_acmessage())
+*:/adminchat = >>>
+_checkpermission('admin',player())
+msg(_acmessage())
+<<<
 
 admin:/inventorystorage = msg(concat(color(a),'[Inventory Storage] ',color(6), 'Use /is instead!'))
 
 *:/is [$arg1=''] [$arg2=''] = >>>
+_checkpermission('all',player())
 assign(@syntax,'/is <list,help,clearall>')
 assign(@syntax2,'/is <save,load,remove> <name>')
 assign(@arg1,$arg1)
