@@ -1,0 +1,44 @@
+#=========================================================================#
+#
+# RDF Server IP Relationships
+# Authored by: Jessassin
+# Contributors: None
+#
+# Requires: ch.alias.admin
+# Risk: Personal info disclosed to above with permission
+#
+#=========================================================================#
+
+*:/playerinfo [$person] = >>>
+_checkpermission('admin',player())
+if(lt(length($person),1),
+	assign(@person,player()),
+	assign(@person,$person)
+)
+msg(concat('Showing IP Information for: ',@person))
+#_rdf_store_latest_ip(@person)
+#_rdf_store_known_ip(@person)
+assign(@latestip,_rdf_get_latest_ip(@person))
+assign(@knownips,_rdf_get_known_ips(@person))
+assign(@relatedplayers,_rdf_get_related_players(@person))
+msg('Latest IP: ',@latestip)
+msg('Known IPs:  ',@knownips)
+msg('Players at current IP: ',@relatedplayers[0])
+msg('Players at other IPs:  ',@relatedplayers[1])
+<<<
+
+*:/ipinfo [$ip] [$person] = >>>
+_checkpermission('admin',player())
+if(lt(length($ip),1),
+	assign(@ip,pinfo(player(),3)),
+	assign(@ip,$ip)
+)
+if(lt(length($person),1),
+	assign(@person,player()),
+	assign(@person,$person)
+)
+_rdf_store_latest_player(@ip,@person)
+_rdf_store_known_players(@ip,@person)
+_rdf_get_latest_player(@ip)
+_rdf_get_known_players(@ip)
+<<<
