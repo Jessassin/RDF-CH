@@ -11,7 +11,7 @@
 proc(_rdf_namestyle,@user,@format,
 	assign(@formats, array(l,m,n,o,r))
 	assign(@groups, pgroup(@user))
-#	assign(@formatsdisplay, concat(color(2), color(l), 'L', color(f), ':Bold', '\n', color(2), ' �mM', color(f), ':�mStrike', '\n', color(2), ' �nN', color(f), ': �nUnderline' '\n', color(2), ' �oO', color(f), ':�oItalic ', '\n', color(2), '�r�2r', color(f), ':�pNormal'))
+#	assign(@formatsdisplay, concat(color(2), color(l), 'L', color(f), ':Bold', '\n', color(2), ' §mM', color(f), ':§mStrike', '\n', color(2), ' §nN', color(f), ': §nUnderline' '\n', color(2), ' §oO', color(f), ':§oItalic ', '\n', color(2), '§r§2r', color(f), ':§pNormal'))
 	assign(@formatdisplay,
 		array(
 			concat('L: ',color(2),color(L),'Bold'),
@@ -42,7 +42,7 @@ proc(_rdf_namestyle,@user,@format,
 		array_contains_ic(@formats, @format), 
 			assign(@run,color(@format)), 
 			msg('That is not a valid format') 
-			die(concat('Valid formats shown in �2green�f: ', '\n', @formatsdisplay))
+			die(concat('Valid formats shown in §2green§f: ', '\n', @formatsdisplay))
 	)
 	assign(@user,to_lower(@user))
 	store_value(concat(@user,'_nameformat'),concat(@run))
@@ -122,12 +122,12 @@ proc(_rdf_namecolor,@user,@color,
 		equals_ic(@donatorlevel,'low'),
 			if(not(array_contains_ic(@dlowcolors,@color)),
 				if(not(array_contains_ic(@dhighcolors,@color)),
-					msg(concat('color: ',color(@color),@color,'�f is not valid, or is not allowed'))
+					msg(concat('color: ',color(@color),@color,'§f is not valid, or is not allowed'))
 					msg('The following colors are allowed:')
 					msg(concat('for',color(2),' green ',color(f), 'level donators: ',@formatteddlcolors))
 					die(concat('for',color(6),' gold ',color(f), 'level donators: ',@formatteddhcolors))
 				)
-				msg(concat('You need to be a �6gold �flevel donator to use the color: 'color(@color),@color))
+				msg(concat('You need to be a §6gold §flevel donator to use the color: 'color(@color),@color))
 				msg('The following colors are allowed:')
 				msg(concat('for',color(2),' green ',color(f), 'level donators: ',@formatteddlcolors))
 				die(concat('for',color(6),' gold ',color(f), 'level donators: ',@formatteddhcolors))
