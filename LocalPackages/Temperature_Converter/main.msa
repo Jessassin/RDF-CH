@@ -35,3 +35,17 @@ if(
 )
 die(_rdf_syntaxerror(@command,@arguments))
 <<<
+
+*:/sound = >>>
+make_effect(ploc(player()),BOW_FIRE)
+make_effect(ploc(player()),EXTINGUISH)
+make_effect(ploc(player()),GHAST_SHRIEK)
+make_effect(ploc(player()),CLICK2)
+make_effect(ploc(player()),CLICK1)
+make_effect(ploc(player()),GHAST_SHOOT)
+make_effect(ploc(player()),POTION_BREAK)
+make_effect(ploc(player()),ZOMBIE_CHEW_WOODEN_DOOR)
+make_effect(ploc(player()),ZOMBIE_CHEW_IRON_DOOR)
+make_effect(ploc(player()),ZOMBIE_DESTROY_DOOR)
+make_effect(ploc(player()),MOBSPAWNER_FLAMES)
+<<<

@@ -29,8 +29,8 @@ proc(_rdf_get_related_players,@player,
 	array_remove_values(@users_at_all_ips,'')
 	array_remove_values(@users_at_all_ips,@user)
 	array_remove_values(@users_at_last_ip,@user)
-#	msg(concat('Known users at current IP: ',@users_at_last_ip))
-#	msg(concat('Known users at all other IPs: ',@users_at_all_ips))
+	console(concat('Known users at current IP: ',@users_at_last_ip))
+	console(concat('Known users at all other IPs: ',@users_at_all_ips))
 	return(array(@users_at_last_ip,@users_at_all_ips))
 )
 
@@ -39,7 +39,7 @@ proc(_rdf_store_latest_player,@ip,@player,
 	assign(@ip,replace(@ip,'.','_'))
 	assign(@persist_latest,concat(@ip,'_player_latest'))
 	store_value(@persist_latest,@user)
-	# msg(concat('Stored: ',@user,' to: ',@persist_latest))
+	console(concat('Stored: ',@user,' to: ',@persist_latest))
 )
 
 proc(_rdf_store_known_players,@ip,@player,
@@ -56,7 +56,7 @@ proc(_rdf_store_known_players,@ip,@player,
 		assign(@next,@previous)
 	)
 	store_value(@persist_known,@next)
-	# msg(concat('Stored: ',@next,' to: ',@persist_known))
+	console(concat('Stored: ',@next,' to: ',@persist_known))
 )
 
 proc(_rdf_store_latest_ip,@player,
@@ -64,7 +64,7 @@ proc(_rdf_store_latest_ip,@player,
 	assign(@persist_latest,concat(@player,'_ip_latest'))
 	assign(@userip,pinfo(@player,3))
 	store_value(@persist_latest,@userip)
-	# msg(concat('Stored: ',@userip,' to: ',@persist_latest))
+	console(concat('Stored: ',@userip,' to: ',@persist_latest))
 )
 
 proc(_rdf_store_known_ip,@player,
@@ -88,34 +88,30 @@ proc(_rdf_get_latest_player,@ip,
 	assign(@ip,replace(@ip,'.','_'))
 	assign(@persist_latest,concat(@ip,'_player_latest'))
 	assign(@ipuser,get_value(@persist_latest))
-#	msg(concat('Latest IP user: ',@ipuser))
+	console(concat('Latest IP user: ',@ipuser))
 	return(@ipuser)
-	
 )
 
 proc(_rdf_get_known_players,@ip,
 	assign(@ip,replace(@ip,'.','_'))
 	assign(@persist_known,concat(@ip,'_player_known'))
 	assign(@ipusers,get_value(@persist_known))
-#	msg(concat('Known IP users: ',@ipusers))
+	console(concat('Known IP users: ',@ipusers))
 	return(@ipusers)
-	
 )
 
 proc(_rdf_get_latest_ip,@player,
 	assign(@user,to_lower(@player))
 	assign(@persist_latest,concat(@user,'_ip_latest'))
 	assign(@userip,get_value(@persist_latest))
-#	msg(concat('User latest IP: ',@userip))
+	console(concat('User latest IP: ',@userip))
 	return(@userip)
-	
 )
 
 proc(_rdf_get_known_ips,@player,
 	assign(@user,to_lower(@player))
 	assign(@persist_known,concat(@user,'_ip_known'))
 	assign(@knownips,get_value(@persist_known))
-#	msg(concat('Known user IPs: ',@knownips))
+	console(concat('Known user IPs: ',@knownips))
 	return(@knownips)
-	
 )

@@ -37,8 +37,8 @@ if(lt(length($person),1),
 	assign(@person,player()),
 	assign(@person,$person)
 )
-_rdf_store_latest_player(@ip,@person)
-_rdf_store_known_players(@ip,@person)
+#_rdf_store_latest_player(@ip,@person)
+#_rdf_store_known_players(@ip,@person)
 _rdf_get_latest_player(@ip)
 _rdf_get_known_players(@ip)
 <<<

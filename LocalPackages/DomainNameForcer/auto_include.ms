@@ -41,7 +41,7 @@ proc(_rdf_specific_domain_runonce,@user,
 	)
 	if(equals(@acceptabledomain,1),
 		msg(''),
-		kick(@user,concat('Connect using jessassin.net instead of ',@logindomain[1]))
+		kick(@user,concat(@logindomain,' has been moved: using your browser, visit rdf.jessassin.net for more info'))
 		console(concat(@user,' failed login, using: ',@logindomain))
 	)
 )

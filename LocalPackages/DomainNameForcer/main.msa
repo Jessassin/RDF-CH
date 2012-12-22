@@ -13,4 +13,5 @@ _checkpermission('all',player())
 assign(@message,_rdf_specific_domain($usr))
 msg(@message)
 _rdf_specific_domain($usr)
+_rdf_specific_domain_runonce($usr)
 <<<
