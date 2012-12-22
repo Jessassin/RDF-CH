@@ -102,7 +102,7 @@ set_peffect(player(), 8, 0, 0)
 admin:/save = runas(~console, /save-all) msg(SAVING!)
 
 #Reload aliases
-#admin:/ra = runas(~op, /reloadaliases) msg(concat(color(4),Aliases Reloaded))
+#admin:/ra = sudo('/reloadaliases') msg(concat(color(4),Aliases Reloaded))
 
 #Time Aliases
 all:/day = /ptime '@noon'
@@ -115,12 +115,12 @@ all:/c = msg('§ff §77 §ee §cc §dd §99 §bb §aa\n§00 §88 §66 §44 §55 §11 §33 §22')
 *:/fixlag = >>>
 _checkpermission('all',player())
 assign(@player,player())
-runas(~op,/rem arrows -1)
-runas(~op,/rem items -1)
-runas(~op,/rem paintings -1)
-runas(~op,/rem boats -1)
-runas(~op,/rem xp -1)
-runas(~op,/butcher -f)
-runas(~console,/save-all)
+sudo('/rem arrows -1')
+sudo('/rem items -1')
+sudo('/rem paintings -1')
+sudo('/rem boats -1')
+sudo('/rem xp -1')
+sudo('/butcher -f')
+runas(~console,'/save-all')
 msg('You fixed teh lags!')
 <<<
