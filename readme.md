@@ -2,20 +2,20 @@
 ###*RDF-CH is a collection of commandhelper scripts used on the RDF build server.*
 
 ##Contents:
-* ###Aliases+Funstuff
-* ###Derps
-* ###DomainNameForcer
-* ###NameSystem
-* ###Online_Players
-* ###Personal_Schematic_Folders
-* ###PlayerIPRelationships
-* ###RDF_CH_Commons
-* ###RSW_Tools
-* ###Temperature_Converter
-* ###Worldedit_Restrictor
+* [Aliases+Funstuff](#Aliases+Funstuff)
+* [Derps](Derps)
+* [DomainNameForcer](DomainNameForcer)
+* [NameSystem](NameSystem)
+* [Online_Players](Online_Players)
+* [Personal_Schematic_Folders](Personal_Schematic_Folders)
+* [PlayerIPRelationships](PlayerIPRelationships)
+* [RDF_CH_Commons](RDF_CH_Commons)
+* [RSW_Tools](RSW_Tools)
+* [Temperature_Converter](Temperature_Converter)
+* [Worldedit_Restrictor](Worldedit_Restrictor)
 
 ##Aliases+Funstuff
-*Commands:
+* Commands:
 	* /ra - Reloads all aliases
 	* /afk - returns message telling users to not go AFK while in-game
 	* /expr - allows you to have the server return solutions to mathmatical expressions
@@ -34,5 +34,27 @@
 * Authored by: Jessassin
 
 ##Derps
-Commands:
-(I should finish this readme someday...)
+* Commands:
+	* /derp <*optional*>
+		* Returns a random inside-joke, or a specific one if a number is givem
+* Authored by: Jessassin
+* Contributions by: RDF community
+
+(the following will be added at a later date: 
+##DomainNameForcer
+
+##NameSystem
+
+##Online_Players
+
+##Personal_Schematic_Folders
+
+##PlayerIPRelationships
+
+##RDF_CH_Commons
+
+##RSW_Tools
+
+##Temperature_Converter
+
+##Worldedit_Restrictor
