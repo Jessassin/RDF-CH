@@ -3,16 +3,16 @@
 
 ##Contents:
 * [Aliases+Funstuff](#Aliases+Funstuff)
-* [Derps](Derps)
-* [DomainNameForcer](DomainNameForcer)
-* [NameSystem](NameSystem)
-* [Online_Players](Online_Players)
-* [Personal_Schematic_Folders](Personal_Schematic_Folders)
-* [PlayerIPRelationships](PlayerIPRelationships)
-* [RDF_CH_Commons](RDF_CH_Commons)
-* [RSW_Tools](RSW_Tools)
-* [Temperature_Converter](Temperature_Converter)
-* [Worldedit_Restrictor](Worldedit_Restrictor)
+* [Derps](#Derps)
+* [DomainNameForcer](#DomainNameForcer)
+* [NameSystem](#NameSystem)
+* [Online_Players](#Online_Players)
+* [Personal_Schematic_Folders](#Personal_Schematic_Folders)
+* [PlayerIPRelationships](#PlayerIPRelationships)
+* [RDF_CH_Commons](#RDF_CH_Commons)
+* [RSW_Tools](#RSW_Tools)
+* [Temperature_Converter](#Temperature_Converter)
+* [Worldedit_Restrictor](#Worldedit_Restrictor)
 
 ##Aliases+Funstuff
 * Commands:
