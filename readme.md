@@ -2,17 +2,17 @@
 ###*RDF-CH is a collection of commandhelper scripts used on the RDF build server.*
 
 ##Contents:
-* [Aliases+Funstuff](#Aliases+Funstuff)
-* [Derps](#Derps)
-* [DomainNameForcer](#DomainNameForcer)
-* [NameSystem](#NameSystem)
-* [Online_Players](#Online_Players)
-* [Personal_Schematic_Folders](#Personal_Schematic_Folders)
-* [PlayerIPRelationships](#PlayerIPRelationships)
-* [RDF_CH_Commons](#RDF_CH_Commons)
-* [RSW_Tools](#RSW_Tools)
-* [Temperature_Converter](#Temperature_Converter)
-* [Worldedit_Restrictor](#Worldedit_Restrictor)
+* [Aliases+Funstuff](#aliasesfunstuff)
+* [Derps](#derps)
+* [DomainNameForcer](#domainnameforcer)
+* [NameSystem](#namesystem)
+* [Online_Players](#online_players)
+* [Personal_Schematic_Folders](#personal_schematic_folders)
+* [PlayerIPRelationships](#playeriprelationships)
+* [RDF_CH_Commons](#rdf_ch_commons)
+* [RSW_Tools](#rsw_tools)
+* [Temperature_Converter](#temperature_converter)
+* [Worldedit_Restrictor](#worldedit_restrictor)
 
 ##Aliases+Funstuff
 * Commands:
