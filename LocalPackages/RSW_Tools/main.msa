@@ -33,7 +33,10 @@ _checkpermission('admin',player())
 msg(_acmessage())
 <<<
 
-admin:/inventorystorage = msg(concat(color(a),'[Inventory Storage] ',color(6), 'Use /is instead!'))
+*:/inventorystorage = >>>
+_checkpermission('admin',player())
+msg(concat(color(a),'[Inventory Storage] ',color(6), 'Use /is instead!'))
+<<<
 
 *:/is [$arg1=''] [$arg2=''] = >>>
 _checkpermission('all',player())

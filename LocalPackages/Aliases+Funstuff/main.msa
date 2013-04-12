@@ -14,27 +14,23 @@ runas(~console, /reloadaliases)
 msg(concat(color(4),'Aliases reloaded!'))
 <<<
 
-all:/afk = >>>
-_checkpermission('all',player())
-msg('Please do not go AFK, it wastes my bandwidth')
+*:/afk = >>>
+msg('Please do not go AFK, it wastes bandwidth')
 msg('Instead, please log off the server')
 <<<
 
 #expression (because, why not!)
-all:/expr [$] = >>>
-_checkpermission('all',player())
+*:/expr [$] = >>>
 assign(@pre,$)
 include('/includes/expression.txt')
 <<<
 
-all:/expression [$] = >>>
-_checkpermission('all',player())
+*:/expression [$] = >>>
 msg('/expression is old! Please use /expr instead :)')
 <<<
 
 #Puts a smile on your face... or maybe just a block
-all:/hat = >>>
-_checkpermission('all',player())
+*:/hat = >>>
 assign(@player, player())
 assign(@hand, pinfo(player(), 6))
         if(is_null(pinv(@player, null)), die(color(c),'You need to be holding something!',))
@@ -45,24 +41,23 @@ tmsg(@player, color(7),'Look at your hat, your hat is amazing!')
 <<<
 
 #animal Noises
-all:/lemur = broadcast(sconcat(color(e) player() color(f) 'Barks and screeches like a lemur!'))
-all:/moo =  broadcast(sconcat(color(e) player() color(f) 'Moos like a cow!'))
-all:/oink =  broadcast(sconcat(color(e) player() color(f) 'Oinks like a pig!'))
-all:/cluck =  broadcast(sconcat(color(e) player() color(f) 'Clucks like a chicken!'))
-all:/bark =  broadcast(sconcat(color(e) player() color(f) 'Barks like a dog!'))
-all:/baa =  broadcast(sconcat(color(e) player() color(f) 'Baas like a sheep!'))
-all:/brains =  broadcast(sconcat(color(e) player() color(f) 'BRAAAAAAAAAAINS like a zombie!'))
-all:/sss =  broadcast(sconcat(color(e) player() color(f) 'SSSSSSSSsssssssssssss-s like a creeper!'))
+*:/lemur = broadcast(sconcat(color(e) player() color(f) 'Barks and screeches like a lemur!'))
+*:/moo =  broadcast(sconcat(color(e) player() color(f) 'Moos like a cow!'))
+*:/oink =  broadcast(sconcat(color(e) player() color(f) 'Oinks like a pig!'))
+*:/cluck =  broadcast(sconcat(color(e) player() color(f) 'Clucks like a chicken!'))
+*:/bark =  broadcast(sconcat(color(e) player() color(f) 'Barks like a dog!'))
+*:/baa =  broadcast(sconcat(color(e) player() color(f) 'Baas like a sheep!'))
+*:/brains =  broadcast(sconcat(color(e) player() color(f) 'BRAAAAAAAAAAINS like a zombie!'))
+*:/sss =  broadcast(sconcat(color(e) player() color(f) 'SSSSSSSSsssssssssssss-s like a creeper!'))
 #idk?
-all:/confused =  broadcast(sconcat(color(e) player() color(f), 'has ALL THE CONFUSION!'))
-all:/nope =  msg('Chuck Testa!')
+*:/confused =  broadcast(sconcat(color(e) player() color(f), 'has ALL THE CONFUSION!'))
+*:/nope =  msg('Chuck Testa!')
 #lag :P
-all:/lag = >>>
+*:/lag = >>>
 runas(~console, concat('/kick ',player(),' I FIXED YOUR LAG! :D <3 Jessassin :P'))
 <<<
 
 *:/huzza = >>>
-_checkpermission('all',player())
 broadcast(concat(color(get_value(concat(player(),'_namecolor'))), player(), '§f Yells:', ' HUZZA!'))
 runas(player(), /suicide)
 <<<
@@ -76,13 +71,11 @@ _checkpermission('admin',player())
 
 #better looking /me command, with the tagging system we have
 *:/me $ = >>>
-_checkpermission('all',player())
 broadcast(concat(color(7),'*',color(e), player(), ' ', color(f), $))
 <<<
 
 #move super fast!
 *:/fast = >>>
-_checkpermission('all',player())
 msg('SUPER SPEED!')
 set_peffect(player(), 1, 50, 5000) #speed
 set_peffect(player(), 5, 50, 5000) #strength
@@ -92,28 +85,29 @@ msg('To stop this effect, type /fixme')
 
 #reset peffects (there is a better way to do this, but I am lazy! (I will turn into a loop later!)
 *:/fixme = >>>
-_checkpermission('all',player())
 set_peffect(player(), 1, 0, 0)
 set_peffect(player(), 5, 0, 0)
 set_peffect(player(), 8, 0, 0)
 <<<
 
 #Save server
-admin:/save = runas(~console, /save-all) msg(SAVING!)
+*:/save = >>>
+_checkpermissions('admin',player())
+runas(~console, /save-all) msg(SAVING!)
+<<<
 
 #Reload aliases
 #admin:/ra = sudo('/reloadaliases') msg(concat(color(4),Aliases Reloaded))
 
 #Time Aliases
-all:/day = /ptime '@noon'
-all:/night = /ptime '@midnight'
+*:/day = /ptime '@noon'
+*:/night = /ptime '@midnight'
 
 #show chat colors (stole this from jadedwolf, very useful!!!)
-all:/c = msg('§ff §77 §ee §cc §dd §99 §bb §aa\n§00 §88 §66 §44 §55 §11 §33 §22')
+*:/c = msg('§ff §77 §ee §cc §dd §99 §bb §aa\n§00 §88 §66 §44 §55 §11 §33 §22')
 
 #fix ALL THE LAG!
 *:/fixlag = >>>
-_checkpermission('all',player())
 assign(@player,player())
 sudo('/rem arrows -1')
 sudo('/rem items -1')

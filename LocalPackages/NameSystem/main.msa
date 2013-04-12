@@ -16,7 +16,6 @@
 #<<<
 
 *:/fixname [$target=''] = >>>
-_checkpermission('all',player())
 if(lt(length($target),3),
 	assign(@target,player()),
 	assign(@target,$target)
@@ -57,7 +56,6 @@ call_alias(/fixname $player)
 
 #Tags (displays the tags that we use, and what they mean
 *:/tags = >>>
-_checkpermission('all',player())
 msg(concat('Here is a list of the current tags:'))
 msg(concat('Type /tags <tag letter> to see more information'))
 msg(concat(color(c), '[M]', color(f), '  - Moderator'))
@@ -120,7 +118,6 @@ _rdf_formatname(@player)
 <<<
 
 *:/nameformat [$1] [$2] [$3] = >>>
-_checkpermission('all',player())
 	assign(@option1,$1)
 	assign(@option2,$2)
 	assign(@option3,$3)

@@ -9,7 +9,7 @@
 #=========================================================================#
 
 *:/checkdomain [$usr] = >>>
-_checkpermission('all',player())
+_checkpermission('admin',player())
 assign(@message,_rdf_specific_domain($usr))
 msg(@message)
 _rdf_specific_domain($usr)
