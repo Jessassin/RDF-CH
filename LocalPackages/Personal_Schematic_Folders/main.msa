@@ -10,7 +10,6 @@
 
 #Schematic saving and loading override. This prevents users from saving into other users folders, and insures file system integrity.
 *://save [$filename='null'] = >>>
-_checkpermission('all',player())
 assign(@realfilename, $filename)
 assign(@username, player())
 assign(@fileformat, 'mcedit')
@@ -21,7 +20,6 @@ run(@command)
 
 #need to add ability to load from another user's folder, if permissions requirements are met
 *://load [$filename='null'] = >>>
-_checkpermission('all',player())
 assign(@realfilename, $filename)
 assign(@username, player())
 assign(@fileformat, 'mcedit')

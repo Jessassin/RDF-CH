@@ -11,7 +11,6 @@
 #=========================================================================#
 
 *:/derp [$]= >>>
-_checkpermission('all',player())
 	assign(@var, $)
 	assign(@player, player())
 	assign(@player,to_lower(@player))
@@ -34,7 +33,6 @@ _checkpermission('all',player())
 <<<
 
 *:/derps = >>>
-_checkpermission('all',player())
 include('/includes/derps.txt')
 assign(@counter,0)
 foreach(@derps,@derp,
@@ -44,7 +42,6 @@ foreach(@derps,@derp,
 <<<
 
 *:/timetest = >>>
-_checkpermission('all',player())
 msg(nano_time())
 assign(@time,nano_time())
 

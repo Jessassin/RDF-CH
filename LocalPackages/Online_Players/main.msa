@@ -36,11 +36,9 @@ if(not(lt(length(@visitors),1)),msg(concat(color(f), 'Visitors: ', color(f), @vi
 <<<
 
 *:/who = >>>
-_checkpermission('all',player())
 call_alias(/online)
 <<<
 
 *:/list = >>>
-_checkpermission('all',player())
 call_alias(/online)
 <<<
