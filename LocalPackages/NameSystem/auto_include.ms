@@ -8,6 +8,8 @@
 #
 #=========================================================================#
 
+include('Includes/options.ms')
+
 proc(_rdf_namestyle,@user,@format,
 	assign(@formats, array(l,m,n,o,r))
 	assign(@groups, pgroup(@user))
