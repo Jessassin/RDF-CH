@@ -214,8 +214,8 @@ proc(_rdf_formatname,@user,
 	assign(@formattedtags,_rdf_formattags(@user,@tagarray))
 	assign(@prefix,_rdf_prefix(@user,@formattedrank))
 	assign(@suffix,_rdf_suffix(@formattedtags))
-	runas(~op,concat('/pex user ',@user,' prefix ',@prefix))
-	runas(~op,concat('/pex user ',@user,' suffix ',@suffix))
+	sudo(concat('/pex user ',@user,' prefix ',@prefix))
+	sudo(concat('/pex user ',@user,' suffix ',@suffix))
 )
 
 proc(_rdf_prefix,@user,@formattedrank,
