@@ -12,3 +12,7 @@
 _checkpermission('admin',player())
 	msg(_rdf_checkcommonsversion('return'))
 <<<
+
+*:/day = _rdf_daytime(player())
+
+*:/night = _rdf_nighttime(player())

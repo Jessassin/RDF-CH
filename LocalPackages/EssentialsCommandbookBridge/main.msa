@@ -1,0 +1,19 @@
+*:/clear [$] = >>>
+	assign(@player,player())
+	runas(@player,concat('/clear -a'))
+<<<
+
+*:/clearinventory [$] = >>>
+	assign(@player,player())
+	runas(@player,concat('/clear -a'))
+<<<
+
+*:/ci [$] = >>>
+	assign(@player,player())
+	runas(@player,concat('/clear -a'))
+<<<
+
+*:/back = >>>
+	assign(@player,player())
+	runas(@player,concat('/return')
+<<<

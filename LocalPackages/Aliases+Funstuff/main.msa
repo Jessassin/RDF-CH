@@ -99,10 +99,6 @@ runas(~console, /save-all) msg(SAVING!)
 #Reload aliases
 #admin:/ra = sudo('/reloadaliases') msg(concat(color(4),Aliases Reloaded))
 
-#Time Aliases
-*:/day = /ptime '@noon'
-*:/night = /ptime '@midnight'
-
 #show chat colors (stole this from jadedwolf, very useful!!!)
 *:/c = msg('§ff §77 §ee §cc §dd §99 §bb §aa\n§00 §88 §66 §44 §55 §11 §33 §22')
 

@@ -40,10 +40,3 @@ foreach(@derps,@derp,
 	assign(@counter,add(@counter,1))
 )
 <<<
-
-*:/timetest = >>>
-msg(nano_time())
-assign(@time,nano_time())
-
-msg(@newtime)
-<<<

@@ -1,2 +1,2 @@
 assign(@domains,array('mc.redstonedev.net.:25565','mc.redstonedev.net:25565'))
-assign(@exemptuserarray,array('jessassin','idenoh'))
+assign(@exemptuserarray,array('jessassin','idenoh','tyler569','amorall171'))
