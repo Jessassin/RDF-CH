@@ -1,8 +1,11 @@
 #assign(@worldeditlimit,256)
 #assign(@plotsize,48)
-assign(@tagarray,array(mod,admin,founder,serveradmin,donatorlow,donatorhigh,writer,helper,sponsorlow,sponsormid,sponsorhigh))
-assign(@tagcolorarray,array(c,4,4,4,2,6,5,7,2,6,1,2,6,1))
-assign(@tagnamearray,array(M,A,F,SA,D,D,W,H,S,S,S))
+assign(@tagarray,array(mod,admin,iadmin,founder,serveradmin,donatorlow,donatorhigh,writer,helper,sponsorlow,sponsormid,sponsorhigh))
+assign(@tagcolorarray,array(c,4,7,4,4,2,6,5,7,2,6,1,2,6,1))
+assign(@tagnamearray,array(M,A,iA,F,SA,D,D,W,H,S,S,S))
+assign(@tagsranksarray,array(m:mod,a:admin,ia:iadmin,f:founder,sa:serveradmin,
+	d1:donatorlow,d2:donatorhigh,w:writer,h:helper,s:sponsorlow,
+	s2:sponsormid,s3:sponsorhigh))
 assign(@numtags,length(@tagarray))
 assign(@rankarray,array(default,guest,testificate,student,builder,engineer,scientist,guru))
 assign(@rankcolorarray,array(f,f,9,f,a,2,c,5))

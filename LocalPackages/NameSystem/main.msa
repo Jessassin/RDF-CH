@@ -16,6 +16,7 @@
 #<<<
 
 *:/fixname [$target=''] = >>>
+_checkpermission('all',player())
 if(lt(length($target),3),
 	assign(@target,player()),
 	assign(@target,$target)
@@ -50,74 +51,79 @@ if(array_contains(@groups, Engineer), sudo(/pex user $player group remove Engine
 if(array_contains(@groups, Builder), sudo(/pex user $player group remove Builder) sudo(/pex user $player group add Testificate))
 if(array_contains(@groups, Testificate), sudo(/pex user $player group remove Testificate) sudo(/pex user $player group add Guest))
 if(array_contains(@groups, Guest), sudo(/pex user $player group remove Guest) sudo(/pex user $player group add Default))
-if(array_contains(@groups, Default), sudo(/pex user $player group remove Default) msg(concat($player, 'is already Default!')))
+if(array_contains(@groups, Default), msg(concat($player, ' is already Default!')))
 call_alias(/fixname $player)
 <<<
 
 #Tags (displays the tags that we use, and what they mean
 *:/tags = >>>
+_checkpermission('all',player())
 msg(concat('Here is a list of the current tags:'))
 msg(concat('Type /tags <tag letter> to see more information'))
 msg(concat(color(c), '[M]', color(f), '  - Moderator'))
-msg(concat(color(4), '[A]', color(f), ' - Admin'))
-msg(concat(color(4), '[F]', color(f), ' - Founder'))
-msg(concat(color(4), '[SA]', color(f), ' -Server Admin'))
-msg(concat(color(2), '[D]', color(f), ' - Donator ($7-$19.99)'))
-msg(concat(color(6), '[D]', color(f), ' - Donator ($20-$49.99)'))
-msg(concat(color(5), '[W]', color(f), ' - Writer'))
-msg(concat(color(7), '[H]', color(f), ' - Helper'))
-msg(concat(color(2), '[S]', color(f), ' - Sponsor ($50-$99.99)'))
-msg(concat(color(6), '[S]', color(f), ' - Sponsor ($100-$150)'))
-msg(concat(color(1), '[S]', color(f), ' - Sponsor ($150+)'))
+msg(concat(color(4), '[A]', color(f), '  - Admin'))
+msg(concat(color(7), '[iA]', color(f), ' - Inactive Admin'))
+msg(concat(color(4), '[F]', color(f), '  - Founder'))
+msg(concat(color(4), '[SA]', color(f), ' - Server Admin'))
+msg(concat(color(2), '[D]', color(f), '  - Donator ($7-$19.99)'))
+msg(concat(color(6), '[D]', color(f), '  - Donator ($20-$49.99)'))
+msg(concat(color(5), '[W]', color(f), '  - Writer'))
+msg(concat(color(7), '[H]', color(f), '  - Helper'))
+msg(concat(color(2), '[S]', color(f), '  - Sponsor ($50-$99.99)'))
+msg(concat(color(6), '[S]', color(f), '  - Sponsor ($100-$150)'))
+msg(concat(color(1), '[S]', color(f), '  - Sponsor ($150+)'))
 <<<
 
 #Tag add/remove (to add or remove a tag from a player) (needs better formatting)
 *:/tag [$add] [$tag] [$player] = >>>
 _checkpermission('admin',player())
 assign(@add,$add)
-assign(@tag,$tag)
+assign(@tag,to_lower($tag))
 assign(@player,$player)
-assign(@tags,array(m,a,sa,f,d1,d2,s1,s2,s3,h,w))
-assign(@ranks,array(Mod,Admin,ServerAdmin,Founder,DonatorLow,DonatorHigh,SponsorLow,SponsorMid,SponsorHigh,Helper,Writer))
-assign(@syntax,concat(color(e), 'Syntax: ', color(f), '/tag ', color(c), '<add/remove> ', '<tag> ', '<player>'))
+assign(@tags,@tagnamearray)
+assign(@ranks,@tagarray)
+assign(@syntax,concat(color(e), 'Syntax: ', color(f), '/tag ', color(c), '<add/remove> <tag> <player>'))
 if(
-		or(
-				lt(length(@add),1),
-				lt(length(@tag),1),
-				lt(length(@player),1)
-			),
-		die(concat(color(4), 'Missing perameter!  ', @syntax))
-	)
+	or(
+		lt(length(@add),1),
+		lt(length(@tag),1),
+		lt(length(@player),1)
+	),
+	die(concat(color(4), 'Missing perameter!  ', @syntax))
+)
 if(
-	nor(equals_ic(@add,add),equals_ic(@add,remove)),
+	nor(equals_ic(@add,'add'),equals_ic(@add,'remove')),
 	die('Incorrect syntax for <add/remove> You entered:' @add)
-	)
-if(not(array_contains_ic(all_players(),@player)),die(concat(color(2), @player, color(4), 'is not online!')))
+)
+if(not(array_contains_ic(all_players(),@player)),die(concat(color(c), @player, ' is not online!')))
 if(
 	not(array_contains_ic(@tags,@tag)),
 	die('The tag '@tag 'is not valid!')
-	)
+)
+
+assign(@promorank,@tagsranksarray[@tag])
+
 if(
-	not(has_permission(player(),concat('jessassin.tag.',@tag))),
-	die(concat('you need the permission jessassin.tag.',@tag))
-	)
-if(equals_ic(@tag,m),assign(@val,0))
-if(equals_ic(@tag,a),assign(@val,1))
-if(equals_ic(@tag,sa),assign(@val,2))
-if(equals_ic(@tag,f),assign(@val,3))
-if(equals_ic(@tag,d1),assign(@val,4))
-if(equals_ic(@tag,d2),assign(@val,5))
-if(equals_ic(@tag,s1),assign(@val,6))
-if(equals_ic(@tag,s2),assign(@val,7))
-if(equals_ic(@tag,s3),assign(@val,8))
-if(equals_ic(@tag,h),assign(@val,9))
-if(equals_ic(@tag,w),assign(@val,10))
-assign(@promorank,array_get(@ranks,@val))
+	and(
+		or(equals(@promorank,'admin'),equals(@promorank,'serveradmin')),
+		equals(@add, 'remove')
+	),
+	sudo(/pex user @player group add iadmin)
+)
+if(
+	and(
+		or(equals(@promorank,'admin'),equals(@promorank,'serveradmin')),
+		equals(@add, 'add')
+	),
+	sudo(/pex user @player group remove iadmin)
+)
+
 sudo(/pex user @player group @add @promorank)
 _rdf_formatname(@player)
 <<<
 
 *:/nameformat [$1] [$2] [$3] = >>>
+_checkpermission('all',player())
 	assign(@option1,$1)
 	assign(@option2,$2)
 	assign(@option3,$3)
