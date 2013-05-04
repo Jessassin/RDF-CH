@@ -15,5 +15,5 @@
 
 *:/back = >>>
 	assign(@player,player())
-	runas(@player,concat('/return')
+	runas(@player,concat('/return'))
 <<<
