@@ -1,0 +1,24 @@
+#=========================================================================#
+#
+# RDF Server Admin Chat
+# Authored by: Tyler569
+#
+# Requires: ch.alias.admin, ch.alias.all
+# Risk: low/none
+#
+#=========================================================================#
+
+*:/adminchat [$] = >>>
+	_checkpermission('admin', player())
+	_adminchat($)
+<<<
+
+*:/ac [$] = >>>
+	_checkpermission('admin', player())
+	_adminchat($)
+<<<
+
+*:/'#' [$] = >>>
+	_checkpermission('admin', player())
+	_adminchat($)
+<<<
