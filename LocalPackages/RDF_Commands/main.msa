@@ -1,0 +1,74 @@
+#=========================================================================#
+#
+# RDF Commands
+# Authored by: Jessassin
+#
+#=========================================================================#
+
+*:/ra = >>>
+_rdf_checkpermission('admin',player())
+msg(concat(color(4),'Reloading aliases!'))
+sudo('/reloadaliases')
+<<<
+
+*:/afk = >>>
+msg('Please do not go AFK, it wastes server bandwidth')
+die('Instead, please log off the server')
+<<<
+
+*:/hat = >>>
+assign(@player, player())
+assign(@hand, pinfo(player(), 6))
+	if(is_null(pinv(@player, null)), die(color(c),'You need to be holding something!',))
+		try(
+			set_pinv(array(103: pinv(player(), null))), @i, die(color(c),'You can\'t wear that!',))
+			ptake_item(player(), @hand, 1)
+tmsg(@player, color(7),'Look at your hat, your hat is amazing!')
+<<<
+
+*:/lag = >>>
+runas(~console, concat('/kick ',player(),' I FIXED YOUR LAG! Love always, Jessassin'))
+<<<
+
+*:/huzza = >>>
+broadcast(concat(color(get_value(concat(player(),'_namecolor'))), player(), '§f Yells:', ' HUZZA!'))
+runas(player(), /suicide)
+<<<
+
+*:/fast = >>>
+msg('SUPER SPEED!')
+set_peffect(player(), 1, 50, 5000) #speed
+set_peffect(player(), 5, 50, 5000) #strength
+set_peffect(player(), 8, 8, 5000) #jumping
+msg('To stop this effect, type /fixme')
+<<<
+
+*:/fixme = >>>
+set_peffect(player(), 1, 0, 0)
+set_peffect(player(), 5, 0, 0)
+set_peffect(player(), 8, 0, 0)
+<<<
+
+*:/c = msg('§ff §77 §ee §cc §dd §99 §bb §aa\n§00 §88 §66 §44 §55 §11 §33 §22')
+
+*:/fixlag = >>>
+assign(@player,player())
+sudo('/rem arrows -1')
+sudo('/rem items -1')
+sudo('/rem paintings -1')
+sudo('/rem boats -1')
+sudo('/rem xp -1')
+sudo('/butcher -f')
+runas(~console,'/save-all')
+msg('You fixed teh lags!')
+<<<
+
+*:/expr = >>>
+assign(@pre,$)
+include('/includes/expression.txt')
+<<<
+
+*:/expression [$] = >>>
+msg('PSST! Typing /expr is easier ;)')
+scriptas(player(),concat('/expr ',$))
+<<<
