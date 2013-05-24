@@ -1,0 +1,150 @@
+#=========================================================================#
+#
+# RDF Server Chat Channels
+# Authored by: Tyler569
+#
+# Requires: ch.alias.all
+# Risk: low/none
+#
+#=========================================================================#
+
+*:/cc [$a1] [$a2] [$a3] = >>>
+
+# Command is the main userside control for package
+# Commands and ref follow:
+# 	join - requires argument and has user join channel in arg
+#		does not allow channels longer than 8 chars
+#		user must leave channel before joining new one
+#	leave - used without argument to leave current channel
+#	view - shows user their current channel and who is in their current channel
+#	info - echos out basic plugin information
+
+	_checkpermission('all', player())
+	
+	if(equals_ic($a1, 'join'),
+		if(not(gt(length($a2),0)),
+			_rdf_syntaxerror('/cc join', '<channel>')
+		)
+		assign(@name, to_upper($a2))
+		_cc_join(player(), @name)
+		die()
+	)
+	if(equals_ic($a1, 'leave'),
+		if(gt(length($a2),0),
+			_rdf_syntaxerror('/cc leave', '')
+		)
+		_cc_leave(player(), false)
+		die()
+	)
+	if(equals_ic($a1, 'view'),
+		if(gt(length($a2),0),
+			_rdf_syntaxerror('/cc view', '')
+		)
+		_cc_plr_view(player())
+		die()
+	)
+	if(equals_ic($a1, 'info'),
+		if(gt(length($a2),0),
+			_rdf_syntaxerror('/cc info', '')
+		)
+		_cc_info()
+		die()
+	)
+	
+	if(equals_ic($a1, 'admin'),
+	
+	# These commands are the main adminside control for package
+	# Commands and ref follow:
+	#	view - used without arg, command echos out list of all currently open channels
+	#	view $ - used with arg, echos out list of players in channel $
+	#	find - player is arg, command return what channel player is in or none if they are not
+	#	close - command closes channel given as arg
+	#		tells users their channel was closed by admin
+	#	pull - command moves player given by arg to channel using admin is in
+	#		tells user they were pulled by admin
+	#		works whether user is in a channel or not, but using admin
+	#		must be in a channel
+	
+		_checkpermission('admin',player())
+		
+		if(equals($a2, 'view'),
+			if(lt(length($a3), 1),
+				_cc_admin_showall()
+				, #else
+				assign(@channel, to_upper($a3))
+				_cc_admin_viewplrs(@channel)
+			)
+			die()
+		)
+		if(equals($a2, 'find'),
+			if(not(gt(length($a3),0)),
+				_rdf_syntaxerror('/cc admin find', '<player>')
+			)
+			assign(@player, _cc_icrepl($a3))
+			if(not(array_contains(all_players(), @player)),
+				die(concat(color(c), @player, ' is not online'))
+			)
+			assign(@channel, _cc_admin_find(@player))
+			if(nequals(@channel, 'null'),
+				msg(concat(color(7), 'That player is in channel ', color(9), @channel))
+				, #else
+				msg(concat(color(8), 'That player is not in a channel'))
+			)
+			die()
+		)
+		if(equals($a2, 'close'),
+			if(not(gt(length($a3),0)),
+				_rdf_syntaxerror('/cc admin close', '<channel>')
+			)
+			assign(@channel, to_upper($a3))
+			_cc_admin_close(@channel)
+			die()
+		)
+		if(equals($a2, 'pull'),
+			if(not(gt(length($a3),0)),
+				_rdf_syntaxerror('/cc admin pull', '<player>')
+			)
+			if(equals(get_value(concat('cc_plr_', player())), 'null'),
+				die(concat(color(c), 'You need to be in a channel to pull someone'))
+			)
+			assign(@player, _cc_icrepl($a3))
+			if(not(array_contains(all_players(), @player)),
+				die(concat(color(c), @player, ' is not online'))
+			)
+			_cc_admin_pull(@player)
+			die()
+		)
+		if(equals($a2, 'spy'),
+			if(gt(length($a3),0),
+				_rdf_syntaxerror('/cc admin spy', '')
+			)
+			if(has_value(concat('cc_chspy_', player())),
+				assign(@current, get_value(concat('cc_chspy_', player())))
+				, #else
+				assign(@current, false)
+			)
+			assign(@now, not(@current))
+			store_value(concat('cc_chspy_', player()), @now)
+			if(@now,
+				msg(concat(color(7), 'CCSpy Enabled'))
+				, #else
+				msg(concat(color(7), 'CCSpy Disabled'))
+			)
+			die()
+		)
+		_rdf_syntaxerror('/cc admin', '(find | view | close | pull) <arg>\n/cc admin (view | spy)')
+	)
+	_rdf_syntaxerror('/cc', 'join <channel>\n/cc (leave | view | info)')
+<<<
+
+*:/e [$] = >>>
+
+# Allows user to talk in global chat while in a channel
+# if used while not in channel - chat goes to global
+
+	chat(concat('Z7F2iS940RQc', $))
+<<<
+
+
+
+
