@@ -104,7 +104,7 @@
 			if(not(gt(length($a3),0)),
 				_rdf_syntaxerror('/cc admin pull', '<player>')
 			)
-			if(equals(get_value(concat('cc_plr_', player())), 'null'),
+			if(equals(get_value(concat('cc.player.', player())), 'null'),
 				die(concat(color(c), 'You need to be in a channel to pull someone'))
 			)
 			assign(@player, _cc_icrepl($a3))
@@ -118,13 +118,13 @@
 			if(gt(length($a3),0),
 				_rdf_syntaxerror('/cc admin spy', '')
 			)
-			if(has_value(concat('cc_chspy_', player())),
-				assign(@current, get_value(concat('cc_chspy_', player())))
+			if(has_value(concat('cc.ccspy.', player())),
+				assign(@current, get_value(concat('cc.ccspy.', player())))
 				, #else
 				assign(@current, false)
 			)
 			assign(@now, not(@current))
-			store_value(concat('cc_chspy_', player()), @now)
+			store_value(concat('cc.ccspy.', player()), @now)
 			if(@now,
 				msg(concat(color(7), 'CCSpy Enabled'))
 				, #else

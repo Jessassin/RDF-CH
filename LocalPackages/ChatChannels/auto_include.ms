@@ -13,9 +13,10 @@
 
 
 # Persistance key:
-#    cc_ch_<channel> - list of players in a certain channel
-#    cc_plr_<player> - channel a player is currently in
-#    cc_chs          - list of all active channels
+#    cc.channel.<channel> - list of players in a certain channel
+#    cc.player.<player>   - channel a player is currently in
+#    cc.ccspy.<player>    - true if player has ccspy enabled
+#    cc.channel_list      - list of all active channels
 
 
 proc(_cc_join, @player, @channel,
@@ -26,9 +27,9 @@ proc(_cc_join, @player, @channel,
 		die(concat(color(c), 'Channel names can only contain letters and numbers'))
 	)
 	
-	assign(@channelBefore, get_value(concat('cc_ch_', @channel)))
+	assign(@channelBefore, get_value(concat('cc.channel.', @channel)))
 	
-	if(not(get_value(concat('cc_plr_',@player))),
+	if(not(get_value(concat('cc.player.',@player))),
 		_cc_onlinetest(@channel)
 		
 		tmsg(@player, concat(color(7), 'Welcome to the channel ', color(9), @channel))
@@ -41,12 +42,12 @@ proc(_cc_join, @player, @channel,
 			assign(@channelBefore,array(@player))
 		)
 		assign(@channelAfter, @channelBefore)
-		store_value(concat('cc_ch_', @channel), @channelAfter)
-		store_value(concat('cc_plr_', @player), @channel)
+		store_value(concat('cc.channel.', @channel), @channelAfter)
+		store_value(concat('cc.player.', @player), @channel)
 		_cc_jl_broadcast(@player, @channel, 'joined')
 		
-		assign(@allchs, get_value('cc_chs'))
-		if(not(is_array(@allchs)),
+		assign(@allchs, get_value('cc.channel_list'))
+		if(equals(@allchs, 'null'),
 			assign(@allchs, array())
 		)
 		if(not(array_contains_ic(@allchs, @channel)),
@@ -56,7 +57,7 @@ proc(_cc_join, @player, @channel,
 				assign(@allchs, array(@channel))
 			)
 			assign(@allchsn, @allchs)
-			store_value('cc_chs', @allchsn)
+			store_value('cc.channel_list', @allchsn)
 		)
 		
 		, #else
@@ -69,7 +70,7 @@ proc(_cc_leave, @player, @silent,
 # Procedure called to have player leave a channel
 # Note: if @silent is set to true - player recieves no notification that they left
 
-	assign(@channel, get_value(concat('cc_plr_', @player)))
+	assign(@channel, get_value(concat('cc.player.', @player)))
 	if(equals(@channel, null),
 		if(@silent,
 			return()
@@ -78,14 +79,14 @@ proc(_cc_leave, @player, @silent,
 			return()
 		)
 	)
-	assign(@channelBefore, get_value(concat('cc_ch_', @channel)))
+	assign(@channelBefore, get_value(concat('cc.channel.', @channel)))
 	if(equals(@channelBefore, 'null'),
 		assign(@channelBefore,array(@player))
 	)
 	array_remove_values(@channelBefore, @player)
 	assign(@channelAfter, @channelBefore)
-	store_value(concat('cc_ch_', @channel), @channelAfter)
-	clear_value(concat('cc_plr_',@player))
+	store_value(concat('cc.channel.', @channel), @channelAfter)
+	clear_value(concat('cc.player.',@player))
 	if(not(@silent),
 		msg(concat(color(7), 'You have left the channel'))
 		_cc_jl_broadcast(@player, @channel, 'left')
@@ -97,12 +98,15 @@ proc(_cc_onlinetest, @channel,
 
 # Removes any offline players from channel passed as arg
 
-	assign(@players, get_value(concat('cc_ch_', @channel)))
+	assign(@players, get_value(concat('cc.channel.', @channel)))
 	if(not(@players), 
-		clear_value(concat('cc_ch_', @channel))
-		assign(@allchs, get_value('cc_chs'))
+		clear_value(concat('cc.channel.', @channel))
+		assign(@allchs, get_value('cc.channel_list'))
+		if(equals(@allchs, 'null'),
+			assign(@allchs, array())
+		)
 		array_remove_values(@allchs, @channel)
-		store_value('cc_chs', @allchs)
+		store_value('cc.channel_list', @allchs)
 		return()
 	)	
 	assign(@all_players, all_players())
@@ -112,7 +116,7 @@ proc(_cc_onlinetest, @channel,
 		)
 	)
 
-	store_value(concat('cc_ch_', @channel), @players)
+	store_value(concat('cc.channel.', @channel), @players)
 )
 
 proc(_cc_channelChat, @player, @chat,
@@ -123,7 +127,7 @@ proc(_cc_channelChat, @player, @chat,
 		_rdf_syntaxerror(get_cmd(), '<message to channel chat>')
 	)
 	
-	assign(@channel, get_value(concat('cc_plr_', @player)))
+	assign(@channel, get_value(concat('cc.player.', @player)))
 	
 	if(equals(@channel, 'null'),
 		msg(concat(color(c), 'You are not in a channel,'))
@@ -138,12 +142,12 @@ proc(_cc_channelChat, @player, @chat,
 	)
 	assign(@nf, concat(color(@namecolor), @nameformat))
 	
-	assign(@plrsto, get_value(concat('cc_ch_', @channel)))
+	assign(@plrsto, get_value(concat('cc.channel.', @channel)))
 	foreach(all_players(), @plr,
 		if(array_contains_ic(@plrsto, @plr),
 			tmsg(@plr, concat(color(9),'[',@channel,']',@nf ,@player,' ',color(f),@chat))
 			, #else
-			if(get_value(concat('cc_chspy_',@plr)),
+			if(get_value(concat('cc.ccspy.',@plr)),
 				_checkpermission('admin', @plr)
 				tmsg(@plr, concat(color(8),'[SPY]',color(9),'[',@channel,']',@nf ,@player,' ',color(f),@chat))
 			)
@@ -155,7 +159,7 @@ proc(_cc_jl_broadcast, @player, @channel, @jl,
 
 # Broadcast to users in a channel when a player joins or leaves
 
-	foreach(get_value(concat('cc_ch_', @channel)), @channelplr,
+	foreach(get_value(concat('cc.channel.', @channel)), @channelplr,
 		tmsg(@channelplr, concat(color(9),'[',@channel,']',color(f),': ',color(a), @player, color(7), ' has ', @jl, ' the channel'))
 	)
 )
@@ -164,11 +168,11 @@ proc(_cc_plr_view, @player,
 
 # Procedure called by /cc view
 
-	assign(@channel, get_value(concat('cc_plr_', @player)))
+	assign(@channel, get_value(concat('cc.player.', @player)))
 	if(equals(@channel, 'null'),
 		die(concat(color(8), 'You are not in a channel'))
 	)
-	assign(@players, get_value(concat('cc_ch_',@channel)))
+	assign(@players, get_value(concat('cc.channel.',@channel)))
 	msg(concat(color(7), 'You are in the channel ', color(9), @channel))
 	msg(concat(color(7), 'Players currently here:\n', color(a), array_implode(@players, ', ')))
 )
@@ -206,7 +210,7 @@ proc(_cc_admin_showall,
 
 # Procedure called by /ccadmin view to show list of channels
 
-	assign(@chs, get_value('cc_chs'))
+	assign(@chs, get_value('cc.channel_list'))
 	if(gt(length(@chs),0),
 		msg(concat(color(7), 'Here are all of the open channels:\n', color(9), array_implode(@chs, ', ')))
 		, #else
@@ -218,10 +222,10 @@ proc(_cc_admin_close, @channel,
 
 # Procedure called by /ccadmin close to close channel
 
-	if(not(array_contains_ic(get_value('cc_chs'), @channel)),
+	if(not(array_contains_ic(get_value('cc.channel_list'), @channel)),
 		die(concat(color(7), 'Channel does not exist'))
 	)
-	assign(@players, get_value(concat('cc_ch_',@channel)))
+	assign(@players, get_value(concat('cc.channel.',@channel)))
 	if(is_array(@players),
 		foreach(@players, @player,
 			_cc_leave(@player, true)
@@ -232,7 +236,7 @@ proc(_cc_admin_close, @channel,
 		, #else
 		_cc_onlinetest(@channel)
 	)
-	if(not(array_contains_ic(get_value('cc_chs'), @channel)),
+	if(not(array_contains_ic(get_value('cc.channel_list'), @channel)),
 		msg(concat(color(7), 'Channel closed'))
 		, #else
 		msg(concat(color(c), 'Operation failed for unknown reason'))
@@ -243,10 +247,10 @@ proc(_cc_admin_viewplrs, @channel,
 
 # Procedure called by /ccadmin view [channel] to show players in channel
 
-	if(not(array_contains_ic(get_value('cc_chs'), @channel)),
+	if(not(array_contains_ic(get_value('cc.channel_list'), @channel)),
 		die(concat(color(7), 'Channel does not exist'))
 	)
-	assign(@players, get_value(concat('cc_ch_',@channel)))
+	assign(@players, get_value(concat('cc.channel.',@channel)))
 	msg(concat(color(7), 'Players in that channel:\n', color(a), array_implode(@players, ', ')))
 )
 
@@ -254,9 +258,9 @@ proc(_cc_admin_find, @player,
 
 # Procedure called by /ccadmin find to find player
 
-	assign(@channels, get_value('cc_chs'))
+	assign(@channels, get_value('cc.channel_list'))
 	foreach(@channels, @channel,
-		assign(@players, get_value(concat('cc_ch_', @channel)))
+		assign(@players, get_value(concat('cc.channel.', @channel)))
 		if(array_contains_ic(@players, @player),
 			return(@channel)
 		)
@@ -268,7 +272,7 @@ proc(_cc_admin_pull, @player,
 
 # Procedure called by /ccadmin pull to pull player
 
-	assign(@channel, get_value(concat('cc_plr_', player())))
+	assign(@channel, get_value(concat('cc.player.', player())))
 	_cc_leave(@player, true)
 	tmsg(@player, concat(color(4), 'You were pulled from your channel by admin'))
 	_cc_join(@player, @channel)
