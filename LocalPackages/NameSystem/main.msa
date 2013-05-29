@@ -74,6 +74,17 @@ msg(concat(color(6), '[S]', color(f), '  - Sponsor ($100-$150)'))
 msg(concat(color(1), '[S]', color(f), '  - Sponsor ($150+)'))
 <<<
 
+*:/ranks = >>>
+_checkpermission('all',player())
+msg(concat('Here is a list of the current ranks in order:'))
+msg(concat('- ', color(f), '[Visitor]'))
+msg(concat('- ', color(f), '[Guest]'))
+msg(concat('- ', color(a), '[Builder]'))
+msg(concat('- ', color(2), '[Engineer]'))
+msg(concat('- ', color(c), '[Scientist]'))
+msg(concat('- ', color(5), '[Guru]'))
+<<<
+
 #Tag add/remove (to add or remove a tag from a player) (needs better formatting)
 *:/tag [$add] [$tag] [$player] = >>>
 _checkpermission('admin',player())
