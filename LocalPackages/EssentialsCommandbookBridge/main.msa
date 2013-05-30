@@ -1,3 +1,14 @@
+#=========================================================================#
+#
+# RDF Server Essentials - CommandBook Bridge
+# Authored by: Jessassin + Tyler569
+#
+# Requires: ch.alias.all
+# Risk: low/none
+#
+#=========================================================================#
+
+
 *:/clear [$] = >>>
 	assign(@player,player())
 	runas(@player,concat('/clear -a'))
