@@ -6,7 +6,7 @@
 #=========================================================================#
 
 *:/ra = >>>
-_rdf_checkpermission('admin',player())
+_checkpermission('admin',player())
 msg(concat(color(4),'Reloading aliases!'))
 sudo('/reloadaliases')
 <<<
