@@ -26,6 +26,9 @@ proc(_cc_join, @player, @channel,
 	if(not(reg_match(concat('^\\w+$'), @channel)),
 		die(concat(color(c), 'Channel names can only contain letters and numbers'))
 	)
+	if(gt(length(@channel), 9),
+		die(concat(color(c), 'Channel names must be 9 charachters or fewer'))
+	)
 	
 	assign(@channelBefore, get_value(concat('cc.channel.', @channel)))
 	
