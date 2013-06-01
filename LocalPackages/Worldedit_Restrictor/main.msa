@@ -82,3 +82,61 @@ _rdf_checkcommonsversion(@requiredcommonsversion)
 	)
 <<<
 
+*://stack [$1] [$2] [$3] = >>>
+assign(@args, array($1, $2, $3))
+if(not(has_permission('worldedit.region.stack')),
+	die('Permission error!')
+)
+# commons version check!
+assign(@requiredcommonsversion,1.1)
+_rdf_checkcommonsversion(@requiredcommonsversion)
+	assign(@dirs, array('south','west','north','east','down','up'))
+	if(is_numeric(@args[0]),
+		assign(@stacks, integer(@args[0]))
+		assign(@dir, @args[1])
+		assign(@cla, 0)
+		, #else
+		assign(@stacks, integer(@args[1]))
+		assign(@dir, @args[2])
+		assign(@cla, 1)
+	)
+	if(not(array_contains(@dirs, @dir)),
+		assign(@pfac, round(pfacing()[0]))
+		assign(@transd, mod(add(@pfac, 45), 360))
+		assign(@direction, floor(divide(@transd, 90)))
+		
+		assign(@vert, pfacing()[1])
+		if(gt(@vert, 68),
+			assign(@direction, 4)
+		)
+		if(lt(@vert, -68),
+			assign(@direction, 5)
+		)
+		, #else
+		assign(@dir, to_lower(@dir))
+		assign(@direction, array('south':0,'west':1,'north':2,'east':3,'down':4,'up':5)[@dir])
+	)
+	if(or(equals(@direction, 4), equals(@direction, 5)),
+		assign(@horizd, abs(subtract(sk_pos2()[1], sk_pos1()[1])))
+		, #else
+		if(or(equals(@direction, 0), equals(@direction, 2)),
+			assign(@horizd, abs(subtract(sk_pos2()[2], sk_pos1()[2])))
+			, #else
+			assign(@horizd, abs(subtract(sk_pos2()[0], sk_pos1()[0])))
+		)
+	)
+	assign(@horizd, add(@horizd, 1))
+	
+	assign(@totalhorizd, multiply(@horizd, @stacks))
+	include('/includes/Config.txt')
+	if(gt(@totalhorizd, @maxdistance),
+		die(concat('This command is limited to a max horizontal distance of ', @maxdistance))
+	)
+	if(equals(@cla, 1),
+		array_set(@args, 2, array('south','west','north','east','down','up')[@direction])
+		, #else
+		array_set(@args, 1, array('south','west','north','east','down','up')[@direction])
+	)
+	assign(@command, sconcat('//stack', array_implode(@args, ' ')))
+	run(@command)
+<<<
