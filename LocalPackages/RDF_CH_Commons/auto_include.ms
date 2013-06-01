@@ -223,11 +223,14 @@ proc(_rdf_2d_distance, @arr1, @arr2,
 
 proc(_rdf_max_horizontal_distance, @arr1, @arr2,
 	return(
-		floor(
-			max(
-				abs(subtract(@arr2[0], @arr1[0])),
-				abs(subtract(@arr2[2], @arr1[2]))
-			)
+		add(
+			floor(
+				max(
+					abs(subtract(@arr2[0], @arr1[0])),
+					abs(subtract(@arr2[2], @arr1[2]))
+				)
+			),
+			1
 		)
 	)
 )
