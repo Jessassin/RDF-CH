@@ -14,14 +14,13 @@
 	assign(@var, $)
 	assign(@player, player())
 	assign(@player,to_lower(@player))
-	assign(@lastrun,get_value(concat(@player,'_lastderp')))
 	if(lt(length(@lastrun),5),
 		store_value(concat(@player,'_lastderp'),nano_time()),
 		if(lt(nano_time(),add(@lastrun,60000000000)),
 			die('you can not run this command that often!')
 		)
 	)
-	
+	assign(@lastrun,get_value(concat(@player,'_lastderp')))	
 	store_value(concat(@player,'_lastderp'),nano_time())
 	include('/includes/derps.txt')
 	if(is_integer(@var), 
