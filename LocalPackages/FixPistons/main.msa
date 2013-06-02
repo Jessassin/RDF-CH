@@ -10,7 +10,8 @@
 # Fixes buggy pistons
 # Debug code commented out, uncomment if needed.
 *:/fixpistons = >>>
-	_checkpermission('all', player())
+		if(is_proc(_checkpermission),
+			_checkpermission('all', player()))
         # How to global variable?
         assign(@pistonDirections, array('down', 'up', 'north', 'south', 'west', 'east'))
         # Grab two world edit positions
@@ -43,11 +44,9 @@
                                         assign(@isExtended, gte(@blockData, 8))
                                         assign(@facing, @pistonDirections[bit_and(7, @blockData)])
                                         ifelse(@isSticky,
-                                                #broadcast(cc('Sticky piston @ ', @blockPos, ' extended:', 
-@isExtended, ' facing:', @facing))
+                                                #broadcast(cc('Sticky piston @ ', @blockPos, ' extended:', @isExtended, ' facing:', @facing))
                                                 ,
-                                                #broadcast(cc('Normal piston @ ', @blockPos, ' extended:', 
-@isExtended, ' facing:', @facing))
+                                                #broadcast(cc('Normal piston @ ', @blockPos, ' extended:', @isExtended, ' facing:', @facing))
                                         )
                                         # Get the extension position
                                         switch(@facing,
@@ -72,14 +71,11 @@
                                                 ifelse(and(@isExtended, not(equals(@extId, 34))),
                                                         assign(@fixCount, add(@fixCount, 1))
                                                         # msg('Piston extension missing, apply')
-                                                        set_block_at(@extPos[0], @extPos[1], @extPos[2], cc(34, 
-':', @extMeta)),
+                                                        set_block_at(@extPos[0], @extPos[1], @extPos[2], cc(34, ':', @extMeta)),
                                                        
                                                         if(and(@isExtended, not(equals(@extData, @extMeta))),
-                                                        #       msg('Piston extended, but extension is corrupt. 
-fixing.')
-                                                                set_block_at(@extPos[0], @extPos[1], @extPos[2], 
-cc(34, ':', @extMeta))
+                                                        #       msg('Piston extended, but extension is corrupt. fixing.')
+                                                                set_block_at(@extPos[0], @extPos[1], @extPos[2], cc(34, ':', @extMeta))
                                                         )
                                                 )
                                         )
