@@ -3,7 +3,8 @@
 # RDF Server Admin Chat
 # Authored by: Tyler569
 #
-# Requires: ch.alias.admin, ch.alias.all
+# Requires: RDF_CH_Commons
+# Permissions: ch.alias.admin, ch.alias.all
 # Risk: low/none
 #
 #=========================================================================#

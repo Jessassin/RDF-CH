@@ -1,10 +1,10 @@
 #=========================================================================#
 #
-# Hides Bukkit Commands
+# RDF HideCommands
 # Authored by Nevercast
 # 
-# Requires permission - ch.all
-# Risk lownone
+# Requires permission - ch.alias.admin
+# Risk low/none
 #
 #=========================================================================#
 

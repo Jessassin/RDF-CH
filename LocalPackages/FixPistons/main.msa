@@ -1,10 +1,10 @@
-
 #=========================================================================#
 #
-# Fixes buggy pistons in your WorldEdit selection
+# RDF FixPistons
 # Authored by: NeverCast
 #
-# Requires: ch.alias.all
+# Requires: Worldedit(plugin)
+# Permissions: ch.alias.all
 # Risk: low/none
 #
 #=========================================================================#

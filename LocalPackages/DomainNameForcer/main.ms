@@ -9,10 +9,6 @@
 #
 #=========================================================================#
 
-*:/checkdomain [$usr] = >>>
-_checkpermission('admin',player())
-assign(@message,_rdf_specific_domain($usr))
-msg(@message)
-_rdf_specific_domain($usr)
-_rdf_specific_domain_runonce($usr)
-<<<
+bind(player_join,null,null,@event,
+	_rdf_specific_domain_runonce(player())
+)

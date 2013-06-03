@@ -92,6 +92,7 @@ assign(@add,$add)
 assign(@tag,to_lower($tag))
 assign(@player,$player)
 assign(@tags,@tagnamearray)
+assign(@taglist,@taginternalnames)
 assign(@ranks,@tagarray)
 assign(@syntax,concat(color(e), 'Syntax: ', color(f), '/tag ', color(c), '<add/remove> <tag> <player>'))
 if(
@@ -108,8 +109,8 @@ if(
 )
 if(not(array_contains_ic(all_players(),@player)),die(concat(color(c), @player, ' is not online!')))
 if(
-	not(array_contains_ic(@tags,@tag)),
-	die('The tag '@tag 'is not valid!')
+	not(array_contains_ic(@taglist,@tag)),
+	die(concat('The tag ',@tag,' is not valid!'))
 )
 
 assign(@promorank,@tagsranksarray[@tag])

@@ -46,22 +46,27 @@ proc(_rdf_namestyle,@user,@format,
 			msg('That is not a valid format') 
 			die(concat('Valid formats shown in §2green§f: ', '\n', @formatsdisplay))
 	)
+	assign(@player,@user)
 	assign(@user,to_lower(@user))
 	store_value(concat(@user,'_nameformat'),concat(@run))
 #	msg(concat('Name display format changed!',get_value(concat(@user,'_nameformat')), ' Sample'))
-	_rdf_formatname(@user)
+	_rdf_formatname(@player)
 )
 
 proc(_rdf_prefixsize,@user,@length,
+	assign(@player,@user)
+	assign(@user,to_lower(@user))
 	if(not(or(equals_ic(@length,'short'),equals_ic(@length,'long'))),
 		die('Please enter "short" or "long"')
 	)
 	store_value(concat(@user,'_ranklength'),@length)
 	msg(concat('Your prefix will now appear: ',color(2),@length))
-	_rdf_formatname(@user)
+	_rdf_formatname(@player)
 )
 
 proc(_rdf_suffixsize,@user,@length,
+	assign(@player,@user)
+	assign(@user,to_lower(@user))
 	assign(@tags,_rdf_gettags(@user))
 	if(lt(length(@tags),2),
 		die('You must have at least 2 tags!')
@@ -71,7 +76,7 @@ proc(_rdf_suffixsize,@user,@length,
 	)
 	store_value(concat(@user,'_taglength'),@length)
 	msg(concat('Your suffix will now appear: ',color(2),@length))
-	_rdf_formatname(@user)
+	_rdf_formatname(@player)
 )
 
 proc(_rdf_namecolor,@user,@color,

@@ -3,7 +3,8 @@
 # RDF Domain Name Forcer
 # Authored by: Jessassin
 # 
-# Requires: n/a
+# Requires: none
+# Permissions: ch.alias.admin
 # Risk: low/none
 #
 #=========================================================================#

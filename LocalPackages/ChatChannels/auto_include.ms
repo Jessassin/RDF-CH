@@ -3,7 +3,8 @@
 # RDF Server Chat Channels
 # Authored by: Tyler569
 #
-# Requires: ch.alias.all
+# Requires: RDF_CH_Commons
+# Permissions: ch.alias.all
 # Risk: low/none
 #
 #=========================================================================#
