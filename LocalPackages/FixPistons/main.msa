@@ -1,0 +1,101 @@
+
+#=========================================================================#
+#
+# Fixes buggy pistons in your WorldEdit selection
+# Authored by: NeverCast
+#
+# Requires: ch.alias.all
+# Risk: low/none
+#
+#=========================================================================#
+# Fixes buggy pistons
+# Debug code commented out, uncomment if needed.
+*:/fixpistons = >>>
+		if(is_proc(_checkpermission),
+			_checkpermission('all', player()))
+        assign(@volumeLimit, pow(64, 3))
+        assign(@displacementLimit, 256)
+        # How to global variable?
+        assign(@pistonDirections, array('down', 'up', 'north', 'south', 'west', 'east'))
+        # Grab two world edit positions
+        assign(@pos1, sk_pos1())
+        assign(@pos2, sk_pos2())
+        assign(@fixCount, 0)
+        # Break them down in to start and finish ( smallest to largest )
+        assign(@x1, min(@pos1[0], @pos2[0]))
+        assign(@x2, max(@pos1[0], @pos2[0]))
+        assign(@y1, min(@pos1[1], @pos2[1]))
+        assign(@y2, max(@pos1[1], @pos2[1]))
+        assign(@z1, min(@pos1[2], @pos2[2]))
+        assign(@z2, max(@pos1[2], @pos2[2]))
+        # Echo it back to the player
+        msg(cc('Fixing pistons from ', array(@x1, @y1, @z1), ' to ', array(@x2, @y2, @z2)))
+        # Calculate volume and 2D-distance of selection
+        assign(@volume, multiply(subtract(@x2, @x1), subtract(@y2, @y1), subtract(@z2, @z1)))
+        assign(@distance, max(subtract(@x2, @x1), subtract(@z2, @z1)))
+        # Check the limits to prevent epic-lag
+        if(gt(@volume, @volumeLimit),
+          die(cc('Volume of selection (', @volumeLimit, ') exceeds the limit of ', @volume))
+        )
+        if(gt(@distance, @displacementLimit),
+          die(cc('Distance of selection (', @distance, ') exceeds the limit of ', @displacementLimit))
+        )
+        # Iterate all the blocks
+        for(assign(@x, @x1), lte(@x, @x2), assign(@x, add(@x, 1)),
+                for(assign(@y, @y1), lte(@y, @y2), assign(@y, add(@y, 1)),
+                        for(assign(@z, @z1), lte(@z, @z2), assign(@z, add(@z, 1)),
+                                # Block pos in @x,@y,@z
+                                assign(@blockPos, array(@x, @y, @z)) # For console output
+                                assign(@blockInfo, get_block_at(@x, @y, @z, 'world'))
+                                assign(@infoParts, split(':', @blockInfo))
+                                # Assign to their own variables to make things easy to read
+                                assign(@blockId, @infoParts[0])
+                                assign(@blockData, @infoParts[1])
+                                # Is this a piston base?
+                                if(or(equals(@blockId, 33), equals(@blockId, 29)),
+                                        assign(@isSticky, equals(@blockId, 29))
+                                        assign(@isExtended, gte(@blockData, 8))
+                                        assign(@facing, @pistonDirections[bit_and(7, @blockData)])
+                                        ifelse(@isSticky,
+                                                #console(cc('Sticky piston @ ', @blockPos, ' extended:', @isExtended, ' facing:', @facing))
+                                                ,
+                                                #console(cc('Normal piston @ ', @blockPos, ' extended:', @isExtended, ' facing:', @facing))
+                                        )
+                                        # Get the extension position
+                                        switch(@facing,
+                                                'west', assign(@extPos, array(add(@x,-1), @y, @z)),
+                                                'south', assign(@extPos, array(@x, @y, add(@z,1))),
+                                                'north', assign(@extPos, array(@x, @y, add(@z,-1))),
+                                                'east', assign(@extPos, array(add(@x,1), @y, @z)),  
+                                                'up', assign(@extPos, array(@x, add(@y,1), @z)),  
+                                                'down', assign(@extPos, array(@x, add(@y,-1), @z)))
+                                        # Create the intended Piston Extension value
+                                        assign(@extMeta, bit_and(7, @blockData))
+                                        if(@isSticky, assign(@extMeta, add(@extMeta, 8)))
+                                        assign(@extInfo, get_block_at(@extPos[0], @extPos[1], @extPos[2]))
+                                        assign(@extParts, split(':', @extInfo))
+                                        assign(@extId, @extParts[0])
+                                        assign(@extData, @extParts[1])
+                                        console(@extParts)
+                                        ifelse(and(equals(@extId, 34), not(@isExtended)),
+                                                # msg('Piston extension on retracted piston, removing')
+                                                assign(@fixCount, add(@fixCount, 1))
+                                                set_block_at(@extPos[0], @extPos[1], @extPos[2], 0),
+                                                ifelse(and(@isExtended, not(equals(@extId, 34))),
+                                                        assign(@fixCount, add(@fixCount, 1))
+                                                        # msg('Piston extension missing, apply')
+                                                        set_block_at(@extPos[0], @extPos[1], @extPos[2], cc(34, ':', @extMeta)),
+                                                       
+                                                        if(and(@isExtended, not(equals(@extData, @extMeta))),
+                                                               # msg('Piston extended, but extension is corrupt. fixing.')
+                                                                set_block_at(@extPos[0], @extPos[1], @extPos[2], cc(34, ':', @extMeta))
+                                                        )
+                                                )
+                                        )
+                                               
+                                )
+                        )
+                )
+        )
+        msg(cc('Fix complete, fixed ', @fixCount, ' pistons.'))
+<<<
