@@ -213,8 +213,25 @@ proc(_rdf_gettags,@user,
 )
 
 proc(_rdf_formatname,@user,
-	assign(@player,@user)
 	assign(@user,to_lower(@user))
+	assign(@matchplrs, array())
+	foreach(all_players(), @tryplr,
+		assign(@ltryplr, to_lower(@tryplr))
+		if(nequals(reg_match(@user, @ltryplr), array()),
+			array_push(@matchplrs, @tryplr)
+		)
+	)
+	if(equals(length(@matchplrs), 0),
+		die(concat(color(c),'That player is not online'))
+	, #else
+		if(equals(length(@matchplrs), 1),
+			assign(@player, @matchplrs[0])
+		, #else
+			msg('Did you mean:')
+			die(array_implode(@matchplrs))
+		)
+	)
+
 	assign(@rank,_rdf_getrank(@user))
 	assign(@tagarray,_rdf_gettags(@user))
 	if(not(has_value(concat(@user,'_ranklength'))),store_value(concat(@user,'_ranklength'),'long'))
