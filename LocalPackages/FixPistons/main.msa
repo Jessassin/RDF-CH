@@ -12,6 +12,8 @@
 *:/fixpistons = >>>
 		if(is_proc(_checkpermission),
 			_checkpermission('all', player()))
+        assign(@volumeLimit, pow(64, 3))
+        assign(@displacementLimit, 256)
         # How to global variable?
         assign(@pistonDirections, array('down', 'up', 'north', 'south', 'west', 'east'))
         # Grab two world edit positions
@@ -27,6 +29,16 @@
         assign(@z2, max(@pos1[2], @pos2[2]))
         # Echo it back to the player
         msg(cc('Fixing pistons from ', array(@x1, @y1, @z1), ' to ', array(@x2, @y2, @z2)))
+        # Calculate volume and 2D-distance of selection
+        assign(@volume, multiply(dec(@x2, @x1), dec(@y2, @y1), dec(@z2, @z1)))
+        assign(@distance, max(dec(@x2, @x1), dec(@z2, @z1)))
+        # Check the limits to prevent epic-lag
+        if(gt(@volume, @volumeLimit),
+          die(cc('Volume of selection (', @volumeLimit, ') exceeds the limit of ', @volume))
+        )
+        if(gt(@distance, @displacementLimit),
+          die(cc('Distance of selection (', @distance, ') exceeds the limit of ', @displacementLimit))
+        )
         # Iterate all the blocks
         for(assign(@x, @x1), lte(@x, @x2), assign(@x, add(@x, 1)),
                 for(assign(@y, @y1), lte(@y, @y2), assign(@y, add(@y, 1)),
