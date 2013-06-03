@@ -1,0 +1,28 @@
+#=========================================================================#
+#
+# Hides Bukkit Commands
+# Authored by Nevercast
+# 
+# Requires permission - ch.all
+# Risk lownone
+#
+#=========================================================================#
+
+# Plugin list
+*:/plugins = >>>
+  ifelse(has_permission('ch.alias.admin'), # Is an admin?
+    runas(player(), /plugins), # Then run default command
+    msg(colorize('&4Sorry, you do not have permission to do this.'))) 
+<<<
+# Version info
+*:/version = >>>
+  ifelse(has_permission('ch.alias.admin'), # Is an admin?
+    runas(player(), /version), # Then run default command
+    msg(colorize('&4Sorry, you do not have permission to do this.'))) 
+<<<
+
+# Aliases
+
+*:/pl = call_alias(/plugins)
+*:/v = call_alias(/version)
+*:/ver = call_alias(/version)
