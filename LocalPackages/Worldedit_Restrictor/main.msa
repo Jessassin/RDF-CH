@@ -35,7 +35,7 @@ if(not(has_permission('worldedit.region.set')),
 assign(@requiredcommonsversion,1.1)
 _rdf_checkcommonsversion(@requiredcommonsversion)
 ##
-	include('/includes/Config.txt')
+	include('/includes/config.txt')
 	assign(@option,$)
 	assign(@command,'//set')
 	assign(@arguments,'<block>')
@@ -56,7 +56,7 @@ if(not(has_permission('worldedit.region.replace')),
 assign(@requiredcommonsversion,1.1)
 _rdf_checkcommonsversion(@requiredcommonsversion)
 ##
-	include('/includes/Config.txt')
+	include('/includes/config.txt')
 	assign(@option1, $1)
 	assign(@option2, $2)
 	if(gt(_rdf_max_horizontal_distance(sk_pos1(), sk_pos2()), @maxdistance),
@@ -74,7 +74,7 @@ if(not(has_permission('worldedit.clipboard.copy')),
 assign(@requiredcommonsversion,1.1)
 _rdf_checkcommonsversion(@requiredcommonsversion)
 ##
-	include('/includes/Config.txt')
+	include('/includes/config.txt')
 	if(gt(_rdf_max_horizontal_distance(sk_pos1(), sk_pos2()), @maxdistance),
 		die(concat('This command is limited to a max horizontal distance of ', @maxdistance)),
 		assign(@command, '//copy')
@@ -131,7 +131,7 @@ _rdf_checkcommonsversion(@requiredcommonsversion)
 	assign(@horizd, add(@horizd, 1))
 	
 	assign(@totalhorizd, multiply(@horizd, @stacks))
-	include('/includes/Config.txt')
+	include('/includes/config.txt')
 	if(gt(@totalhorizd, @maxdistance),
 		die(concat('This command is limited to a max horizontal distance of ', @maxdistance))
 	)
