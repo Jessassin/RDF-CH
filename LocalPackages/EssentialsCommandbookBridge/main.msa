@@ -29,3 +29,9 @@
 	assign(@player,player())
 	runas(@player,concat('/return'))
 <<<
+
+*:/t [$] = >>>
+	msg($)
+	assign(@player,player())
+	runas(@player,concat('/tell ', $))
+<<<
