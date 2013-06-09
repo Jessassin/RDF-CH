@@ -90,6 +90,10 @@ if(not(has_permission('worldedit.region.stack')),
 # commons version check!
 assign(@requiredcommonsversion,1.1)
 _rdf_checkcommonsversion(@requiredcommonsversion)
+	if(equals(@args, array('','','')),
+		run('//stack')
+		die()
+	)
 	assign(@dirs, array('south','west','north','east','down','up'))
 	if(is_numeric(@args[0]),
 		assign(@stacks, integer(@args[0]))
