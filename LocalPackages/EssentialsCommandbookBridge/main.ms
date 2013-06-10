@@ -21,3 +21,18 @@ bind(player_interact, null, array(block: 63), @event,
 		cancel()
 	)
 )
+
+bind(player_command, null, null, @event,
+	assign(@msgs, array('/msg', '/message', '/whisper', '/pm', '/tell', '/reply', '/r', '/t', '/w'))
+	if(not(array_contains_ic(@msgs, @event['prefix'])),
+		die()
+	)
+	assign(@message, concat(color(8), '[SPY]', color(2), '[PM]', color(b), @event['player'], color(f), ' ', @event['command']))
+	foreach(all_players(), @admintest,
+		if(has_value(concat('socialspy.', @admintest)),
+			if(and(equals(get_value(concat('socialspy.', @admintest)), 'true'), nequals(@admintest, @event['player'])),
+				tmsg(@admintest, @message)
+			)
+		)
+	)
+)
