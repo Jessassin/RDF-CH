@@ -83,7 +83,12 @@ _rdf_checkcommonsversion(@requiredcommonsversion)
 <<<
 
 *://stack [$1] [$2] [$3] = >>>
-assign(@args, array($1, $2, $3))
+if(equals($1,''),
+	assign(@1,1)
+	, #else
+	assign(@1,$1)
+)
+assign(@args, array(@1, $2, $3))
 if(not(has_permission('worldedit.region.stack')),
 	die('Permission error!')
 )
