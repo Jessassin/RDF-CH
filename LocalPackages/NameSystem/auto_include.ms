@@ -241,6 +241,7 @@ proc(_rdf_formatname,@user,
 	assign(@prefix,_rdf_prefix(@user,@formattedrank))
 	assign(@suffix,_rdf_suffix(@formattedtags))
 	set_display_name(@user,concat(@prefix,@player,@suffix))
+	msg(concat('Name fixed, prefix: ', @prefix, color(r), ', suffix: ', @suffix))
 )
 
 proc(_rdf_prefix,@user,@formattedrank,
