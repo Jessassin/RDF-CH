@@ -30,26 +30,25 @@ proc(_rdf_namestyle,@user,@format,
 				array_contains_ic(@groups,sponsorlow), 
 				array_contains_ic(@groups,sponsormid), 
 				array_contains_ic(@groups,sponsorhigh)
-				)
-			),
-			msg('This command is only avaliable to high level donators')
-			msg('As a high level donator, you would have access to the following name formats')
-			die(
-				foreach(@formatdisplay,@format,
-					msg(@format)
-				)
 			)
+		), #then
+		msg('This command is only avaliable to high level donators')
+		msg('As a high level donator, you would have access to the following name formats')
+		foreach(@formatdisplay,@format,
+			msg(@format)
+		)
+		die()
 	)
-	if(
-		array_contains_ic(@formats, @format), 
-			assign(@run,color(@format)), 
-			msg('That is not a valid format') 
-			die(concat('Valid formats shown in §2green§f: ', '\n', @formatsdisplay))
+	if(array_contains_ic(@formats, @format), 
+		assign(@run,color(@format))
+	, #else 
+		msg('That is not a valid format')
+		die('Do "/nameformat style" for a list of valid formats')
 	)
 	assign(@player,@user)
 	assign(@user,to_lower(@user))
 	store_value(concat(@user,'_nameformat'),concat(@run))
-#	msg(concat('Name display format changed!',get_value(concat(@user,'_nameformat')), ' Sample'))
+	msg(concat(get_value(concat(@user,'_nameformat')), 'Name display format changed!'))
 	_rdf_formatname(@player)
 )
 
@@ -83,17 +82,17 @@ proc(_rdf_namecolor,@user,@color,
 	assign(@groups,pgroup(@user))
 	assign(@dlowcolors,array(2,b,f,7,8,e,d,9,a,3))
 	assign(@dhighcolors,array(1,5,6))
-	if(
-		not(
-			or(
-				array_contains_ic(@dlowcolors,@color),
-				array_contains_ic(@dhighcolors,@color)
-			)),
-		die(concat(@color is not allowed))
-	)
-	if(equals_ic(@color,'k'),
-		die('K is not allowed')
-	)
+	# if(
+		# not(
+			# or(
+				# array_contains_ic(@dlowcolors,@color),
+				# array_contains_ic(@dhighcolors,@color)
+			# )),
+		# die(concat(@color is not allowed))
+	# )
+	# if(equals_ic(@color,'k'),
+		# die('K is not allowed')
+	# )
 	foreach(@dlowcolors,@index,
 		assign(@formatteddlcolors,concat(@formatteddlcolors,color(@index),@index,color(f),', '))
 	)
@@ -129,12 +128,12 @@ proc(_rdf_namecolor,@user,@color,
 		equals_ic(@donatorlevel,'low'),
 			if(not(array_contains_ic(@dlowcolors,@color)),
 				if(not(array_contains_ic(@dhighcolors,@color)),
-					msg(concat('color: ',color(@color),@color,'§f is not valid, or is not allowed'))
+					msg(concat('color: ',color(@color),@color,color(f)' is not valid, or is not allowed'))
 					msg('The following colors are allowed:')
 					msg(concat('for',color(2),' green ',color(f), 'level donators: ',@formatteddlcolors))
 					die(concat('for',color(6),' gold ',color(f), 'level donators: ',@formatteddhcolors))
 				)
-				msg(concat('You need to be a §6gold §flevel donator to use the color: 'color(@color),@color))
+				msg(concat('You need to be a ',color(6),'gold ',color(f),'level donator to use the color: 'color(@color),@color))
 				msg('The following colors are allowed:')
 				msg(concat('for',color(2),' green ',color(f), 'level donators: ',@formatteddlcolors))
 				die(concat('for',color(6),' gold ',color(f), 'level donators: ',@formatteddhcolors))
