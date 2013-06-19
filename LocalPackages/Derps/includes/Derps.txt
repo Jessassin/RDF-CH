@@ -9,6 +9,7 @@ assign(@derps,array(
 	'Wat ave you done ere!',
 	'I had my muke mited the entire time!',
 	'Who is binary?',
-	'It\'s a super jew!'
+	'It\'s a super jew!',
+	'i did the firts on the internet'
 	)
 )
