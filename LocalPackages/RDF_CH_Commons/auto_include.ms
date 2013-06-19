@@ -26,11 +26,11 @@ proc(_formattext,@format,
 		),
 		die(concat('ERROR! in proc(_formatchat) - format not supported -', @format))
 		)
-	if(equals_ic(@format,'bold'),assign(@realform,§l))
-	if(equals_ic(@format,'strike'),assign(@realform,'§m'))
-	if(equals_ic(@format,'underline'),assign(@realform,'§n'))
-	if(equals_ic(@format,'italic'),assign(@realform,'§o'))
-	if(equals_ic(@format,'none'),assign(@realform,'§p'))
+	if(equals_ic(@format,'bold'),assign(@realform,color(l)))
+	if(equals_ic(@format,'strike'),assign(@realform,color(m)))
+	if(equals_ic(@format,'underline'),assign(@realform,color(n)))
+	if(equals_ic(@format,'italic'),assign(@realform,color(o)))
+	if(equals_ic(@format,'none'),assign(@realform,color(p)))
 	return(concat(@realform))
 )
 
