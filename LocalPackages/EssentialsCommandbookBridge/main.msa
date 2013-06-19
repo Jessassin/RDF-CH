@@ -31,7 +31,23 @@
 <<<
 
 *:/t [$] = >>>
-	msg($)
 	assign(@player,player())
 	runas(@player,concat('/tell ', $))
+<<<
+
+*:/socialspy = >>>
+	assign(@player,player())
+	_checkpermission('admin', @player)
+	if(has_value(concat('socialspy.', @player)),
+		if(equals(get_value(concat('socialspy.', @player)), 'false'),
+			store_value(concat('socialspy.', @player), 'true')
+			msg(concat(color(7), 'SocialSpy Enabled'))
+		, #else
+			store_value(concat('socialspy.', @player), 'false')
+			msg(concat(color(7), 'SocialSpy Disabled'))
+		)
+	, #else
+		store_value(concat('socialspy.', @player), 'true')
+		msg(concat(color(7), 'SocialSpy Enabled'))
+	)
 <<<
