@@ -11,3 +11,4 @@ assign(@rankcolorarray,array(f,f,9,f,a,2,c,5))
 assign(@ranknamearray,array(Visitor,Guest,Testificate,'',Builder,Engineer,Scientist,Guru))
 assign(@shortranknamearray,array('V','Guest','Test','','Bldr','Eng','Sci','Guru'))
 assign(@numranks,length(@rankarray))
+6
