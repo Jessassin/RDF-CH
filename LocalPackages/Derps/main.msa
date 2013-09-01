@@ -1,42 +1,49 @@
 #=========================================================================#
 #
 # RDF Server Derps
-# Authored by: Jessassin
+# Authored by: DJ8X
 # 
 # Permissions: none
 # Requires: none
 # Risk: low/none
 #
-# These "derps" are usually things people have said that we got a good laugh out of, all of the being inside jokes.
+# These "derps" are usually things people have said that we 
+# got a good laugh out of, all of them being inside jokes.
 #
 #=========================================================================#
 
-*:/derp [$]= >>>
-	assign(@var, $)
-	assign(@player, player())
-	assign(@player,to_lower(@player))
-	if(lt(length(@lastrun),5),
-		store_value(concat(@player,'_lastderp'),nano_time()),
-		if(lt(nano_time(),add(@lastrun,60000000000)),
-			die('you can not run this command that often!')
-		)
-	)
-	assign(@lastrun,get_value(concat(@player,'_lastderp')))	
-	store_value(concat(@player,'_lastderp'),nano_time())
-	include('/includes/derps.txt')
-	if(is_integer(@var), 
-		die(broadcast(concat(color(2),'*',@player,color(l),' DERP! ',color(r),color(d),@derps[@var])))
-	)
-	assign(@length,length(@derps))
-	assign(@derp,array_get(@derps,rand(0,subtract(@length,1))))
-	broadcast(concat(color(2),'*',color(f),@player, color(l),' DERP! ',color(r),color(d),@derp))
+*:/derp [$index] = >>>
+include('/includes/derps.txt')
+assign(@player,player())
+assign(@time,nano_time())
+
+if(is_numeric($index),
+	assign(@index,integer($index))
+, # Else
+	assign(@index,1000) # Out-of-bounds index
+)
+
+# Check 60-second cooldown
+if(lt(subtract(@time,get_value(concat(@player,'_lastderp'))),60000000000),
+	die(concat(color(c),'You cannot run this command that often!'))
+)
+store_value(concat(@player,'_lastderp'),@time)
+
+# Get derp if specified, otherwise get random derp
+if(array_index_exists(@derps,@index),
+	assign(@derp,@derps[@index])
+, # Else
+	assign(@derp,@derps[rand(subtract(array_size(@derps),1))])
+)
+
+broadcast(concat(color(2),'*',color(f),player(),color(1),' DERP! ',color(d),@derp))
 <<<
 
 *:/derps = >>>
 include('/includes/derps.txt')
-assign(@counter,0)
+assign(@index,0)
 foreach(@derps,@derp,
-	msg(concat(color(1),@counter, color(f),': ', color(a),@derp))
-	assign(@counter,add(@counter,1))
+	msg(concat(color(1),@index,': ', color(a),@derp))
+	assign(@index,add(@index,1))
 )
 <<<
