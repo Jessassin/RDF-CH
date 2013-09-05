@@ -59,7 +59,6 @@ call_alias(/fixname $player)
 *:/tags = >>>
 _checkpermission('all',player())
 msg(concat('Here is a list of the current tags:'))
-msg(concat('Type /tags <tag letter> to see more information'))
 msg(concat(color(c), '[M]', color(f), '  - Moderator'))
 msg(concat(color(4), '[A]', color(f), '  - Admin'))
 msg(concat(color(7), '[iA]', color(f), ' - Inactive Admin'))
