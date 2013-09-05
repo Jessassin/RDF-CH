@@ -58,7 +58,6 @@ call_alias(/fixname $player)
 #Tags (displays the tags that we use, and what they mean
 *:/tags = >>>
 _checkpermission('all',player())
-msg(concat('Here is a list of the current tags:'))
 msg(concat('Type /tags <tag letter> to see more information'))
 msg(concat(color(c), '[M]', color(f), '  - Moderator'))
 msg(concat(color(4), '[A]', color(f), '  - Admin'))
