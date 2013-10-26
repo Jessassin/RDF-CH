@@ -4,5 +4,4 @@
 # See LICENSE.txt or visit http://www.gnu.org/licenses/ for more information
 
 
-assign(@domains,array('mc.redstonedev.net.:1234','mc.redstonedev.net:1234'))
-assign(@exemptuserarray,array('jessassin','idenoh','tyler569','amorall171'))
+assign(@maxdistance,256)

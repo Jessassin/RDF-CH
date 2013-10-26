@@ -1,1 +1,0 @@
-assign(@maxdistance,256)
